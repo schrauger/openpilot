@@ -101,7 +101,7 @@ class LatControlINDI(object):
           self.RC = self.timeConstant
       else:
           self.G = (self.actuatorEffectiveness * 2)
-          self.RC = (self.timeConstant * 2.0)
+          self.RC = (self.timeConstant * 2)
       #self.G = interp(abs(angle_steers), [0, 3], [self.actuatorEffectiveness, (self.actuatorEffectiveness * 2)])
       #self.RC = interp(abs(angle_steers), [0, 3], [self.timeConstant, (self.timeConstant * 2.5)])
 
