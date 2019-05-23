@@ -96,14 +96,14 @@ class LatControlINDI(object):
       self.angle_steers_des = path_plan.angleSteers
       self.rate_steers_des = path_plan.rateSteers
 
-      #if abs(angle_steers) < 3:
-          #self.G = self.actuatorEffectiveness
-          #self.RC = self.timeConstant
-      #else:
-          #self.G = (self.actuatorEffectiveness * 2)
-          #self.RC = (self.timeConstant * 2.5)
-      self.G = interp(abs(angle_steers), [0, 3], [self.actuatorEffectiveness, (self.actuatorEffectiveness * 2)])
-      self.RC = interp(abs(angle_steers), [0, 3], [self.timeConstant, (self.timeConstant * 2.5)])
+      if abs(angle_steers) < 3:
+          self.G = self.actuatorEffectiveness
+          self.RC = self.timeConstant
+      else:
+          self.G = (self.actuatorEffectiveness * 2)
+          self.RC = (self.timeConstant * 2.5)
+      #self.G = interp(abs(angle_steers), [0, 3], [self.actuatorEffectiveness, (self.actuatorEffectiveness * 2)])
+      #self.RC = interp(abs(angle_steers), [0, 3], [self.timeConstant, (self.timeConstant * 2.5)])
 
       steers_des = math.radians(self.angle_steers_des)
       rate_des = math.radians(self.rate_steers_des)
