@@ -96,7 +96,7 @@ class LatControlINDI(object):
       self.angle_steers_des = path_plan.angleSteers
       self.rate_steers_des = path_plan.rateSteers
 
-      if abs(self.angle_steers_des) < 3:
+      if abs(self.angle_steers) < 3:
           self.G = self.actuatorEffectiveness
           self.RC = self.timeConstant
       else:
