@@ -1,10 +1,12 @@
 import math
 import numpy as np
+from common.numpy_fast import interp
 
 from selfdrive.car.toyota.carcontroller import SteerLimitParams
 from selfdrive.car import apply_toyota_steer_torque_limits
 from selfdrive.controls.lib.drive_helpers import get_steer_max, DT
 from common.numpy_fast import clip
+from selfdrive.kegman_conf import kegman_conf
 from cereal import log
 
 
@@ -38,6 +40,10 @@ class LatControlINDI(object):
     self.outer_loop_gain = CP.lateralTuning.indi.outerLoopGain
     self.inner_loop_gain = CP.lateralTuning.indi.innerLoopGain
     self.alpha = 1. - DT / (self.RC + DT)
+
+    # Live Tuning variable init
+    kegman = kegman_conf(CP)
+    self.mpc_frame = 0
 
     self.reset()
 
