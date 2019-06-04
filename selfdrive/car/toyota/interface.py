@@ -74,9 +74,6 @@ class CarInterface(object):
     tireStiffnessRear_civic = 202500
 
     ret.steerActuatorDelay = 0.12  # Default delay, Prius has larger delay
-    if candidate != CAR.PRIUS:
-      ret.lateralTuning.init('pid')
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
 
     if candidate == CAR.PRIUS:
       stop_and_go = True
@@ -102,8 +99,14 @@ class CarInterface(object):
       ret.steerRatio = 16.30   # 14.5 is spec end-to-end
       tire_stiffness_factor = 0.5533
       ret.mass = 3650 * CV.LB_TO_KG + std_cargo  # mean between normal and hybrid
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.05]]
-      ret.lateralTuning.pid.kf = 0.00006   # full torque for 10 deg at 80mph means 0.00007818594
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate == CAR.COROLLA:
       stop_and_go = False
@@ -112,8 +115,15 @@ class CarInterface(object):
       ret.steerRatio = 17.8
       tire_stiffness_factor = 0.444
       ret.mass = 2860 * CV.LB_TO_KG + std_cargo  # mean between normal and hybrid
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.2], [0.05]]
-      ret.lateralTuning.pid.kf = 0.00003   # full torque for 20 deg at 80mph means 0.00007818594
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate == CAR.LEXUS_RXH:
       stop_and_go = True
@@ -122,8 +132,15 @@ class CarInterface(object):
       ret.steerRatio = 16.  # 14.8 is spec end-to-end
       tire_stiffness_factor = 0.444  # not optimized yet
       ret.mass = 4481 * CV.LB_TO_KG + std_cargo  # mean between min and max
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.1]]
-      ret.lateralTuning.pid.kf = 0.00006   # full torque for 10 deg at 80mph means 0.00007818594
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate in [CAR.CHR, CAR.CHRH]:
       stop_and_go = True
@@ -132,8 +149,15 @@ class CarInterface(object):
       ret.steerRatio = 13.6
       tire_stiffness_factor = 0.7933
       ret.mass = 3300. * CV.LB_TO_KG + std_cargo
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.723], [0.0428]]
-      ret.lateralTuning.pid.kf = 0.00006
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate in [CAR.CAMRY, CAR.CAMRYH]:
       stop_and_go = True
@@ -142,8 +166,15 @@ class CarInterface(object):
       ret.steerRatio = 13.7
       tire_stiffness_factor = 0.7933
       ret.mass = 3400 * CV.LB_TO_KG + std_cargo #mean between normal and hybrid
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.1]]
-      ret.lateralTuning.pid.kf = 0.00006
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate in [CAR.HIGHLANDER, CAR.HIGHLANDERH]:
       stop_and_go = True
@@ -152,8 +183,15 @@ class CarInterface(object):
       ret.steerRatio = 16.0
       tire_stiffness_factor = 0.444 # not optimized yet
       ret.mass = 4607 * CV.LB_TO_KG + std_cargo #mean between normal and hybrid limited
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.05]]
-      ret.lateralTuning.pid.kf = 0.00006
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate == CAR.AVALON:
       stop_and_go = False
@@ -162,8 +200,15 @@ class CarInterface(object):
       ret.steerRatio = 14.8 #Found at https://pressroom.toyota.com/releases/2016+avalon+product+specs.download
       tire_stiffness_factor = 0.7983
       ret.mass = 3505 * CV.LB_TO_KG + std_cargo  # mean between normal and hybrid
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.17], [0.03]]
-      ret.lateralTuning.pid.kf = 0.00006
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate == CAR.RAV4_2019:
       stop_and_go = True
@@ -172,8 +217,15 @@ class CarInterface(object):
       ret.steerRatio = 14.3
       tire_stiffness_factor = 0.7933
       ret.mass = 3370. * CV.LB_TO_KG + std_cargo
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
-      ret.lateralTuning.pid.kf = 0.00007818594
+
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     elif candidate == CAR.COROLLA_HATCH:
       stop_and_go = True
@@ -182,8 +234,15 @@ class CarInterface(object):
       ret.steerRatio = 13.9
       tire_stiffness_factor = 0.444
       ret.mass = 3060. * CV.LB_TO_KG + std_cargo
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
-      ret.lateralTuning.pid.kf = 0.00007818594
+      
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGain = 4.0
+      ret.lateralTuning.indi.outerLoopGain = 3.0
+      ret.lateralTuning.indi.timeConstant = 1.5
+      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+
+      ret.steerActuatorDelay = 0.5
+      ret.steerRateCost = 0.5
 
     ret.steerRateCost = 1.
     ret.centerToFront = ret.wheelbase * 0.44
