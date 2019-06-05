@@ -18,8 +18,8 @@ def dashboard_thread():
   frame_count = 0
 
   try:
-    if os.path.isfile('/data/kegman.json'):
-      with open('/data/kegman.json', 'r') as f:
+    if os.path.isfile('/data/zorrotune.json'):
+      with open('/data/zorrotune.json', 'r') as f:
         config = json.load(f)
         user_id = config['userID']
     else:

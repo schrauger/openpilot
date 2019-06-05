@@ -28,8 +28,8 @@ class kegman_conf():
   def read_config(self):
     self.element_updated = False
 
-    if os.path.isfile('/data/kegman.json'):
-      with open('/data/kegman.json', 'r') as f:
+    if os.path.isfile('/data/zorrotune.json'):
+      with open('/data/zorrotune.json', 'r') as f:
         self.config = json.load(f)
 
       if "timeConstant" not in self.config:
@@ -60,6 +60,6 @@ class kegman_conf():
     return self.config
 
   def write_config(self, config):
-    with open('/data/kegman.json', 'w') as f:
+    with open('/data/zorrotune.json', 'w') as f:
       json.dump(self.config, f, indent=2, sort_keys=True)
-      os.chmod("/data/kegman.json", 0o764)
+      os.chmod("/data/zorrotune.json", 0o764)
