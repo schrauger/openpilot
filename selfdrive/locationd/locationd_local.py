@@ -116,7 +116,7 @@ class ParamsLearner(object):
     self.MAX_SR_TH = MAX_SR_TH * self.VM.sR
 
     self.alpha1 = 0.01 * learning_rate
-    self.alpha2 = 0.0005 * learning_rate
+    self.alpha2 = 0.005 * learning_rate
     self.alpha3 = 0.1 * learning_rate
     self.alpha4 = 1.0 * learning_rate
 
