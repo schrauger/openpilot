@@ -1,5 +1,6 @@
 from selfdrive.controls.lib.pid import PIController
 from selfdrive.controls.lib.drive_helpers import get_steer_max
+from common.numpy_fast import interp
 from cereal import car
 from cereal import log
 
@@ -29,6 +30,7 @@ class LatControlPID(object):
       #dt = min(cur_time - self.angle_steers_des_time, _DT_MPC + _DT) + _DT  # no greater than dt mpc + dt, to prevent too high extraps
       #self.angle_steers_des = self.angle_steers_des_prev + (dt / _DT_MPC) * (self.angle_steers_des_mpc - self.angle_steers_des_prev)
       self.angle_steers_des = path_plan.angleSteers  # get from MPC/PathPlanner
+      self.angle_steers_des = path_plan.angleSteers / (interp(abs(path_plan.angleSteers), [0,10], [1.0, 1.2]))
 
       steers_max = get_steer_max(CP, v_ego)
       self.pid.pos_limit = steers_max
