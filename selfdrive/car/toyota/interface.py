@@ -68,10 +68,10 @@ class CarInterface(object):
       ret.mass = 3345. * CV.LB_TO_KG + STD_CARGO_KG
 
       ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGain = 4.0
-      ret.lateralTuning.indi.outerLoopGain = 3.0
-      ret.lateralTuning.indi.timeConstant = 0.0
-      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+      ret.lateralTuning.indi.innerLoopGain = 4.2
+      ret.lateralTuning.indi.outerLoopGain = 6.0
+      ret.lateralTuning.indi.timeConstant = 0.2
+      ret.lateralTuning.indi.actuatorEffectiveness = 2.5
       ret.steerActuatorDelay = 0.5
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
