@@ -39,6 +39,9 @@ class LatControlINDI(object):
     self.outer_loop_gain = CP.lateralTuning.indi.outerLoopGain
     self.inner_loop_gain = CP.lateralTuning.indi.innerLoopGain
     self.alpha = 1. - DT_CTRL / (self.RC + DT_CTRL)
+    self.steer_counter_prev = 0.
+    self.steer_counter = 0.
+    self.rough_steers_rate = 0.
 
     self.reset()
 
@@ -48,6 +51,17 @@ class LatControlINDI(object):
     self.counter = 0
 
   def update(self, active, v_ego, angle_steers, angle_steers_rate, steer_override, CP, VM, path_plan):
+
+    if True:
+      if angle_steers != self.prev_angle_steers:
+        self.steer_counter_prev = self.steer_counter
+        self.rough_steers_rate = (self.rough_steers_rate + 100.0 * (angle_steers - self.prev_angle_steers) / self.steer_counter_prev) / 2.0
+        self.steer_counter = 0.0
+      elif self.steer_counter >= self.steer_counter_prev:
+        self.rough_steers_rate = (self.steer_counter * self.rough_steers_rate) / (self.steer_counter + 1.0)
+      self.steer_counter += 1.0
+      angle_steers_rate = self.rough_steers_rate
+
     # Update Kalman filter
     y = np.matrix([[math.radians(angle_steers)], [math.radians(angle_steers_rate)]])
     self.x = np.dot(self.A_K, self.x) + np.dot(self.K, y)
