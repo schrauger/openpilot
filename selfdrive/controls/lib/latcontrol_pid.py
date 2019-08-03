@@ -158,7 +158,7 @@ class LatControlPID(object):
       self.damp_rate_steers_des += (interp(sec_since_boot() + self.damp_mpc + self.react_mpc, path_plan.mpcTimes, path_plan.mpcRates) - self.damp_rate_steers_des) / max(1.0, self.damp_mpc * 100.)
       self.damp_angle_steers += (angle_steers + self.damp_time * angle_steers_rate - self.damp_angle_steers) / max(1.0, self.damp_time * 100.)
 
-      if steer_override and abs(self.damp_angle_steers) > abs(self.damp_angle_steers_des):
+      if steer_override and abs(self.damp_angle_steers) > abs(self.damp_angle_steers_des) and self.pid.saturated:
         self.damp_angle_steers_des = self.damp_angle_steers
 
       steers_max = get_steer_max(CP, v_ego)
