@@ -20,7 +20,7 @@ def calc_states_after_delay(states, v_ego, steer_angle, curvature_factor, steer_
 
 
 class PathPlanner(object):
-  def __init__(self, CP):
+  def __init__(self, CP): 
     self.MP = ModelParser()
 
     self.l_poly = libmpc_py.ffi.new("double[4]")

@@ -68,7 +68,7 @@ bool ParamsLearner::update(double psi, double u, double sa) {
 
   slow_ao = clip(slow_ao, -MAX_ANGLE_OFFSET, MAX_ANGLE_OFFSET);
   ao = clip(ao, -MAX_ANGLE_OFFSET, MAX_ANGLE_OFFSET);
-  x = clip(x, MIN_STIFFNESS, MAX_STIFFNESS);
+  x = clip(x, MIN_STIFFNESS, MAX_STIFFNESS); 
   sR = clip(sR, min_sr, max_sr);
 
   bool valid = fabs(slow_ao) < MAX_ANGLE_OFFSET_TH;
