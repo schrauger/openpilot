@@ -122,7 +122,7 @@ class LatControlPID(object):
       self.starting_angle = angle_steers
       self.lane_change_adjustment = 1.0
 
-  def update(self, active, v_ego, angle_steers, angle_steers_rate, steer_override, blinkers_on, CP, VM, path_plan):
+  def update(self, active, v_ego, angle_steers, angle_steers_rate, steer_override, blinkers_on, CP, VM, path_plan, live_params):
 
     if angle_steers_rate == 0.0 and self.calculate_rate:
       if angle_steers != self.prev_angle_steers:
@@ -141,7 +141,7 @@ class LatControlPID(object):
     pid_log.steerAngle = float(angle_steers)
     pid_log.steerRate = float(angle_steers_rate)
 
-    self.angle_bias += (path_plan.angleBias - self.angle_bias) / interp(abs(angle_steers_rate) + abs(path_plan.rateSteers), [1.5, 5.0], [10.0, 200.0])
+    self.angle_bias += (live_params.angleOffset - live_params.angleOffsetAverage - self.angle_bias) / interp(abs(angle_steers_rate) + abs(path_plan.rateSteers), [1.5, 5.0], [10.0, 200.0])
     self.live_tune(CP)
 
     if v_ego < 0.3 or not active:
@@ -195,10 +195,10 @@ class LatControlPID(object):
       self.path_error = float(v_ego) * float(self.get_projected_path_error(v_ego, angle_feedforward, path_plan, VM)) * self.poly_factor * self.cur_poly_scale * self.angle_ff_gain
 
       if self.driver_assist_hold and not steer_override and abs(angle_steers) > abs(self.damp_angle_steers_des):
-        self.angle_bias = 0.0
+        #self.angle_bias = 0.0
         driver_opposing_i = False
       elif (steer_override and self.pid.saturated) or self.driver_assist_hold or self.lane_changing > 0.0 or blinkers_on:
-        self.angle_bias = 0.0
+        #self.angle_bias = 0.0
         self.path_error = 0.0
 
       if self.gernbySteer and not steer_override and v_ego > 10.0:
