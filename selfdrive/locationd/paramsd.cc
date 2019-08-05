@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     if (value_sz > 0) break;
     usleep(100*1000);
   }
-  LOGW("got %d bytes CarParams", value_sz); 
+  LOGW("got %d bytes CarParams", value_sz);
 
   // make copy due to alignment issues
   auto amsg = kj::heapArray<capnp::word>((value_sz / sizeof(capnp::word)) + 1);
