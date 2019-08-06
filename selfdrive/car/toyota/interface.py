@@ -66,7 +66,7 @@ class CarInterface(object):
     ret.lateralTuning.pid.polyFactor = 0.001
     ret.lateralTuning.pid.polyDampTime = 0.15
     ret.lateralTuning.pid.polyReactTime = 0.5
-    ret.lateralTuning.pid.steerPscale = [[1.0, 2.0, 10.0], [1.0, 0.5, 0.25], [1.0, 0.75, 0.5]]  # [abs angles, scale UP, scale DOWN]
+    #ret.lateralTuning.pid.steerPscale = [[1.0, 2.0, 10.0], [1.0, 0.5, 0.25], [1.0, 0.75, 0.5]]  # [abs angles, scale UP, scale DOWN]
 
     if candidate == CAR.PRIUS:
       stop_and_go = True
@@ -96,7 +96,7 @@ class CarInterface(object):
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.03]]
       ret.lateralTuning.pid.kf = 0.00006   # full torque for 10 deg at 80mph means 0.00007818594
       ret.lateralTuning.pid.dampTime = 0.0
-      ret.lateralTuning.pid.reactMPC = 0.0
+      ret.lateralTuning.pid.reactMPC = 0.025
       ret.lateralTuning.pid.rateFFGain = 0.4
 
     elif candidate == CAR.COROLLA:
