@@ -152,6 +152,8 @@ class CarState(object):
     if self.isoffset == 0:
         self.offset = self.angle_steers - self.angle_steers_old
         self.isoffset = 1
+    if (self.angle_steers - self.angle_steers_old) > 2.5:
+        self.angle_steers = self.angle_steers_old
     can_gear = int(cp.vl["GEAR_PACKET"]['GEAR'])
     self.gear_shifter = parse_gear_shifter(can_gear, self.shifter_values)
     self.main_on = cp.vl["PCM_CRUISE_2"]['MAIN_ON']
