@@ -41,9 +41,6 @@ class ModelParser(object):
     l_prob = md.leftLane.prob  # left line prob
     r_prob = md.rightLane.prob  # right line prob
 
-    # Don't exit dive
-    if abs(l_poly[3] - r_poly[3]) > 3.6:
-        r_prob = r_prob / interp(l_prob, [0, 1], [1, 3])
     # Find current lanewidth
     if l_prob > 0.49 and r_prob > 0.49:
         self.frame += 1
@@ -56,6 +53,10 @@ class ModelParser(object):
             self.lane_width = avg
             if len(self.readings) == max_samples:
                 self.readings.pop(0)
+
+    # Don't exit dive
+    if abs(l_poly[3] - r_poly[3]) > self.lane_width:
+        r_prob = r_prob / interp(l_prob, [0, 1], [1, 3])
 
     self.lead_dist = md.lead.dist
     self.lead_prob = md.lead.prob
