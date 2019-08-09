@@ -4,7 +4,7 @@ from selfdrive.controls.lib.pid import PIController
 
 LongCtrlState = log.ControlsState.LongControlState
 
-STOPPING_EGO_SPEED = 0.5
+STOPPING_EGO_SPEED = 1.5
 MIN_CAN_SPEED = 0.3  # TODO: parametrize this in car interface
 STOPPING_TARGET_SPEED = MIN_CAN_SPEED + 0.01
 STARTING_TARGET_SPEED = 0.5
