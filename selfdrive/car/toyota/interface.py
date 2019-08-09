@@ -211,8 +211,8 @@ class CarInterface(object):
     # steer, gas, brake limitations VS speed
     ret.steerMaxBP = [16. * CV.KPH_TO_MS, 45. * CV.KPH_TO_MS]  # breakpoints at 1 and 40 kph
     ret.steerMaxV = [1., 1.]  # 2/3rd torque allowed above 45 kph
-    ret.brakeMaxBP = [0.]
-    ret.brakeMaxV = [1.]
+    ret.brakeMaxBP = [0., 2., 3.]
+    ret.brakeMaxV = [0.15, 0.27, 1.]
 
     ret.enableCamera = not check_ecu_msgs(fingerprint, ECU.CAM) or is_panda_black
     ret.enableDsu = not check_ecu_msgs(fingerprint, ECU.DSU)
@@ -225,11 +225,11 @@ class CarInterface(object):
 
     ret.steerLimitAlert = False
 
-    ret.longitudinalTuning.deadzoneBP = [0., 9.]
-    ret.longitudinalTuning.deadzoneV = [0., .15]
+    ret.longitudinalTuning.deadzoneBP = [0.]
+    ret.longitudinalTuning.deadzoneV = [0.]
     ret.longitudinalTuning.kpBP = [0., 5., 35.]
     ret.longitudinalTuning.kiBP = [0., 35.]
-    ret.stoppingControl = False
+    ret.stoppingControl = True
     ret.startAccel = 0.0
 
     if ret.enableGasInterceptor:
