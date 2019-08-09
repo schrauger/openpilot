@@ -229,7 +229,7 @@ class CarInterface(object):
     ret.longitudinalTuning.deadzoneV = [0.]
     ret.longitudinalTuning.kpBP = [0., 5., 35.]
     ret.longitudinalTuning.kiBP = [0., 35.]
-    ret.stoppingControl = True
+    ret.stoppingControl = False
     ret.startAccel = 0.0
 
     if ret.enableGasInterceptor:
