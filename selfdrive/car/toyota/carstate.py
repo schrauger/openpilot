@@ -144,7 +144,7 @@ class CarState(object):
     v_ego_x = self.v_ego_kf.update(v_wheel)
     self.v_ego = float(v_ego_x[0])
     self.a_ego = float(v_ego_x[1])
-    #self.standstill = not v_wheel > 0.001
+    self.standstill = False
 
     self.angle_steers_old = cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] + cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']
     self.angle_steers_rate = cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_RATE']
