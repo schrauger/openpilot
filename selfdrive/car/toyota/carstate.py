@@ -142,15 +142,15 @@ class CarState(object):
     self.a_ego = float(v_ego_x[1])
     self.standstill = not v_wheel > 0.001
 
+    self.angle_steers_rate = cp.vl["STEER_ANGLE_SENSOR"]['STEER_RATE']
     if self.CP.carFingerprint in NO_DSU_CAR: # Vehicle that needs offsetting
       self.angle_steers = cp.vl["STEER_TORQUE_SENSOR"]['STEER_ANGLE'] - self.steer_offset
-      if self.steer_offset == 0.0 and self.angle_steers > 1 and cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] > 1:
+      if self.steer_offset == 0.0 and self.v_ego > 3.0 and abs(self.angle_steers_rate) < 3.0:
         self.steer_offset = self.angle_steers - cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] - cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']
     elif self.CP.carFingerprint in TSS2_CAR:
       self.angle_steers = cp.vl["STEER_TORQUE_SENSOR"]['STEER_ANGLE']
     else:
       self.angle_steers = cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] + cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']
-    self.angle_steers_rate = cp.vl["STEER_ANGLE_SENSOR"]['STEER_RATE']
     can_gear = int(cp.vl["GEAR_PACKET"]['GEAR'])
     self.gear_shifter = parse_gear_shifter(can_gear, self.shifter_values)
     self.main_on = cp.vl["PCM_CRUISE_2"]['MAIN_ON']
