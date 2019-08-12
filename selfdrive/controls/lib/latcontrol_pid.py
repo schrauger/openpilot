@@ -1,12 +1,12 @@
 from selfdrive.controls.lib.pid import PIController
 from selfdrive.controls.lib.drive_helpers import get_steer_max
 from selfdrive.kegman_conf import kegman_conf
-from common.numpy_fast import interp
+from common.numpy_fast import interp, clip
+import numpy as np
 from cereal import log
 from common.realtime import sec_since_boot
 from common.params import Params
 import json
-import numpy as np
 
 class LatControlPID(object):
   def __init__(self, CP):
@@ -143,7 +143,7 @@ class LatControlPID(object):
     pid_log.steerRate = float(angle_steers_rate)
 
     max_bias_change = min(0.002, 0.0002 / (abs(self.angle_bias) + 0.0001))
-    self.angle_bias = float(np.clip(live_params.angleOffset - live_params.angleOffsetAverage, self.angle_bias - max_bias_change, self.angle_bias + max_bias_change))
+    self.angle_bias = float(clip(live_params.angleOffset - live_params.angleOffsetAverage, self.angle_bias - max_bias_change, self.angle_bias + max_bias_change))
     self.live_tune(CP)
 
     if v_ego < 0.3 or not active:

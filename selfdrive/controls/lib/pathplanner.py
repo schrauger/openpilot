@@ -2,6 +2,7 @@ import os
 import math
 import numpy as np
 
+from common.numpy_fast import clip
 from common.realtime import sec_since_boot
 from selfdrive.services import service_list
 from selfdrive.swaglog import cloudlog
@@ -64,7 +65,7 @@ class PathPlanner(object):
     angle_offset_average = sm['liveParameters'].angleOffsetAverage
 
     max_offset_change = min(0.01, 0.001 / (abs(self.angle_offset) + 0.0001))
-    self.angle_offset = np.clip(angle_offset_average + sm['controlsState'].lateralControlState.pidState.angleBias, self.angle_offset - max_offset_change, self.angle_offset + max_offset_change)
+    self.angle_offset = clip(angle_offset_average + sm['controlsState'].lateralControlState.pidState.angleBias, self.angle_offset - max_offset_change, self.angle_offset + max_offset_change)
 
     self.MP.update(v_ego, sm['model'])
 
@@ -79,7 +80,7 @@ class PathPlanner(object):
     # prevent over-inflation of desired angle
     actual_delta = math.radians(angle_steers - self.angle_offset) / VM.sR
     delta_limit = abs(actual_delta) + abs(3.0 * self.mpc_solution[0].rate[0])
-    self.cur_state[0].delta = np.clip(self.cur_state[0].delta, -delta_limit, delta_limit)
+    self.cur_state[0].delta = clip(self.cur_state[0].delta, -delta_limit, delta_limit)
 
     # account for actuation delay
     self.cur_state = calc_states_after_delay(self.cur_state, v_ego, angle_steers - self.angle_offset, curvature_factor, VM.sR, CP.steerActuatorDelay)
