@@ -148,7 +148,7 @@ class CarState(object):
 
     self.angle_steers_old = cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] + cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']
     self.angle_steers_rate = cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_RATE']
-    self.angle_steers = cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_STEER'] - self.offset
+    self.angle_steers = round(cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_STEER'] - self.offset, 2)
     if self.isoffset == 0:
         self.offset = self.angle_steers - self.angle_steers_old
         self.isoffset = 1
