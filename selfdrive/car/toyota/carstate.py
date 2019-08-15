@@ -34,7 +34,6 @@ def get_can_parser(CP):
     ("TC_DISABLED", "ESP_CONTROL", 1),
     ("STEER_FRACTION", "STEER_ANGLE_SENSOR", 0),
     ("ZORRO_STEER", "SECONDARY_STEER_ANGLE", 0),
-    ("ZORRO_RATE", "SECONDARY_STEER_ANGLE", 0),
     ("STEER_RATE", "STEER_ANGLE_SENSOR", 0),
     ("CRUISE_ACTIVE", "PCM_CRUISE", 0),
     ("CRUISE_STATE", "PCM_CRUISE", 0),
@@ -147,8 +146,8 @@ class CarState(object):
     self.standstill = False
 
     self.angle_steers_old = cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] + cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']
-    self.angle_steers_rate = cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_RATE']
-    self.angle_steers = round(cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_STEER'] - self.offset, 2)
+    self.angle_steers_rate = cp.vl["STEER_ANGLE_SENSOR"]['STEER_RATE']
+    self.angle_steers = cp.vl["SECONDARY_STEER_ANGLE"]['ZORRO_STEER'] - self.offset
     if self.isoffset == 0:
         self.offset = self.angle_steers - self.angle_steers_old
         self.isoffset = 1
