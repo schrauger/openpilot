@@ -63,7 +63,7 @@ class LatControlINDI(object):
       self.delayed_output = 0.0
     else:
       self.angle_steers_des = path_plan.angleSteers
-      self.rate_steers_des = path_plan.rateSteers
+      self.rate_steers_des = round(path_plan.rateSteers, 2)
 
       steers_des = math.radians(self.angle_steers_des)
       rate_des = math.radians(self.rate_steers_des)

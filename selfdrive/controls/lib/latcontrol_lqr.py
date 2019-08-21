@@ -34,7 +34,7 @@ class LatControlLQR(object):
     torque_scale = (0.45 + v_ego / 60.0)**2  # Scale actuator model with speed
 
     # Subtract offset. Zero angle should correspond to zero torque
-    self.angle_steers_des = path_plan.angleSteers - path_plan.angleOffset
+    self.angle_steers_des = round(path_plan.angleSteers - path_plan.angleOffset, 2)
     angle_steers -= path_plan.angleOffset
 
     # Update Kalman filter
