@@ -56,7 +56,7 @@ class LatControlLQR(object):
     max_bias_change = 0.001  #min(0.001, 0.0002 / (abs(self.angle_bias) + 0.000001))
     max_bias_change *= interp(abs(angle_steers - live_params.angleOffsetAverage - self.angle_bias), [0.0, 5.0], [0.25, 1.0])
     max_bias_change *= interp(abs(path_plan.rateSteers), [1.0, 5.0], [0.25, 1.0])
-    self.angle_bias = float(np.clip(live_params.angleOffset - live_params.angleOffsetAverage, self.angle_bias - max_bias_change, self.angle_bias + max_bias_change))
+    self.angle_bias = float(clip(live_params.angleOffset - live_params.angleOffsetAverage, self.angle_bias - max_bias_change, self.angle_bias + max_bias_change))
 
     if len(live_mpc.delta) > 0:
       #if (live_mpc.delta[2] - live_mpc.delta[1]) > 0 != (live_mpc.delta[19] - live_mpc.delta[1]) > 0 and abs(live_mpc.delta[19]) > abs(live_mpc.delta[2]):
@@ -101,7 +101,7 @@ class LatControlLQR(object):
 
       # Clip output
       steers_max = get_steer_max(CP, v_ego)
-      #self.output_steer = clip(self.output_steer, -steers_max, steers_max)
+      self.output_steer = clip(self.output_steer, -steers_max, steers_max)
 
     lqr_log.steerAngle = angle_steers_k + path_plan.angleOffset
     lqr_log.i = self.i_lqr
