@@ -87,6 +87,7 @@ class CarController(object):
     self.lead_distance_counter = 1
     self.lead_distance_counter_prev = 1
     self.rough_lead_speed = 0.0
+    self.resume_count = 0
 
   def rough_speed(self, lead_distance):
     if self.prev_lead_distance != lead_distance:
@@ -98,6 +99,7 @@ class CarController(object):
     self.lead_distance_counter += 1.0
     self.prev_lead_distance = lead_distance
     return self.rough_lead_speed
+
 
   def update(self, enabled, CS, frame, actuators, \
              pcm_speed, pcm_override, pcm_cancel_cmd, pcm_accel, \
@@ -133,7 +135,6 @@ class CarController(object):
     if CS.CP.radarOffCan:
       snd_beep = snd_beep if snd_beep != 0 else snd_chime
 
-    #print("{0} {1} {2}".format(chime, alert_id, hud_alert))
     fcw_display, steer_required, acc_alert = process_hud_alert(hud_alert)
 
     hud = HUDData(int(pcm_accel), int(round(hud_v_cruise)), 1, hud_car,
@@ -189,10 +190,28 @@ class CarController(object):
             can_sends.append(hondacan.spam_buttons_command(self.packer, CruiseButtons.RES_ACCEL, idx, CS.CP.carFingerprint, CS.CP.isPandaBlack))
         else:
           can_sends.append(hondacan.spam_buttons_command(self.packer, CruiseButtons.RES_ACCEL, idx, CS.CP.carFingerprint, CS.CP.isPandaBlack))
+      elif CS.auto_resume and CS.pedal_gas > 0 and CS.v_ego > 3.0:
+        if self.resume_count < 10:
+          can_sends.append(hondacan.spam_buttons_command(self.packer, 0, idx, CS.CP.carFingerprint, CS.CP.isPandaBlack))
+          CS.auto_resuming = False
+          self.resume_count += 1
+        elif self.resume_count < 20:
+          can_sends.append(hondacan.spam_buttons_command(self.packer, CruiseButtons.RES_ACCEL, idx, CS.CP.carFingerprint, CS.CP.isPandaBlack))
+          CS.auto_resuming = (self.resume_count < 15)
+          self.resume_count += 1
+        elif self.resume_count < 30:
+          can_sends.append(hondacan.spam_buttons_command(self.packer, 0, idx, CS.CP.carFingerprint, CS.CP.isPandaBlack))
+          CS.auto_resuming = False
+          self.resume_count += 1
+        else:
+          CS.auto_resuming = False
+          CS.auto_resume = False
+          self.resume_count = 0
       else:
+        self.resume_count = 0
+        CS.auto_resuming = False
         self.stopped_lead_distance = CS.lead_distance
         self.prev_lead_distance = CS.lead_distance
-
     else:
       # Send gas and brake commands.
       if (frame % 2) == 0:

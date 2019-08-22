@@ -72,12 +72,15 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     calibrationProgress @47;
     lowBattery @48;
     invalidGiraffeHonda @49;
-    vehicleModelInvalid @50;
-    controlsFailed @51;
-    sensorDataInvalid @52;
-    commIssue @53;
-    tooDistracted @54;
-    posenetInvalid @55;
+    manualSteeringRequired @50;
+    manualSteeringRequiredBlinkersOn @51;
+    vehicleModelInvalid @52;
+    controlsFailed @53;
+    sensorDataInvalid @54;
+    commIssue @55;
+    tooDistracted @56;
+    posenetInvalid @57;
+    soundsUnavailable @58;
   }
 }
 
@@ -109,6 +112,7 @@ struct CarState {
   steeringAngle @7 :Float32;   # deg
   steeringRate @15 :Float32;   # deg/s
   steeringTorque @8 :Float32;  # TODO: standardize units
+  steeringTorqueEps @27 :Float32;  # TODO: standardize units
   steeringPressed @9 :Bool;    # if the user is using the steering wheel
 
   # cruise state
@@ -122,11 +126,13 @@ struct CarState {
   leftBlinker @20 :Bool;
   rightBlinker @21 :Bool;
   genericToggle @23 :Bool;
+  readdistancelines @26 :Float32;
+  lkMode @29 :Bool;
 
   # lock info
   doorOpen @24 :Bool;
   seatbeltUnlatched @25 :Bool;
-  canValid @26 :Bool;
+  canValid @28 :Bool;
 
   # which packets this state came from
   canMonoTimes @12: List(UInt64);
@@ -326,6 +332,7 @@ struct CarParams {
     indi @27 :LateralINDITuning;
     lqr @40 :LateralLQRTuning;
   }
+  lqr2 @41 :LateralLQRTuning;
 
   steerLimitAlert @28 :Bool;
 
@@ -357,6 +364,7 @@ struct CarParams {
     polyReactTime @11 :Float32;
     polyScale @12 :List(List(Float32));
     steerPscale @13 :List(List(Float32));
+    lqr @14 :LateralLQRTuning;
   }
 
   struct LongitudinalPIDTuning {
@@ -389,7 +397,9 @@ struct CarParams {
 
     k @6 :List(Float32);  # LQR gain
     l @7 :List(Float32);  # Kalman gain
+    reactMPC @8 :Float32;
   }
+
 
   enum SafetyModel {
     # does NOT match board setting

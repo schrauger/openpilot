@@ -418,9 +418,10 @@ struct ControlsState @0x97ff69c53601abf1 {
   aTarget @35 :Float32;
   jerkFactor @12 :Float32;
   angleSteers @13 :Float32;     # Steering angle in degrees.
-  dampAngleSteers @57 :Float32;     # Steering angle in degrees.
+  dampAngleSteers @57 :Float32;
   angleSteersDes @29 :Float32;
-  dampAngleSteersDes @56 :Float32;
+  dampAngleSteersDes @58 :Float32;
+  dampAngleBias @59 :Float32;
   curvature @37 :Float32;       # path curvature from vehicle model
   hudLeadDEPRECATED @14 :Int32;
   cumLagMs @15 :Float32;
@@ -442,6 +443,7 @@ struct ControlsState @0x97ff69c53601abf1 {
   alertBlinkingRate @42 :Float32;
   alertType @44 :Text;
   alertSound @45 :Text;
+  alertSoundNEW @56 :Car.CarControl.HUDControl.AudibleAlert;
   awarenessStatus @26 :Float32;
   angleModelBias @27 :Float32;
   gpsPlannerActive @40 :Bool;
@@ -459,6 +461,7 @@ struct ControlsState @0x97ff69c53601abf1 {
     pidState @53 :LateralPIDState;
     lqrState @55 :LateralLQRState;
   }
+  lqrState2 @60 :LateralLQRState;
 
   enum OpenpilotState @0xdbe58b96d2d1ac61 {
     disabled @0;
@@ -505,8 +508,8 @@ struct ControlsState @0x97ff69c53601abf1 {
     steerAngle @1 :Float32;
     steerRate @2 :Float32;
     angleError @3 :Float32;
-    p2 @11 :Float32;
     p @4 :Float32;
+    p2 @11 :Float32;
     i @5 :Float32;
     f @6 :Float32;
     output @7 :Float32;
@@ -514,7 +517,7 @@ struct ControlsState @0x97ff69c53601abf1 {
     angleFFRatio @9 :Float32;
     angleFFGain @10 :Float32;
     angleBias @12 :Float32;
-   }
+  }
 
   struct LateralLQRState {
     active @0 :Bool;
@@ -686,14 +689,15 @@ struct PathPlan {
   laneWidth @0 :Float32;
 
   dPoly @1 :List(Float32);
+  pPoly @21 :List(Float32);
+  gPoly @22 :List(Float32);
+  gProb @23 :Float32;
   cPoly @2 :List(Float32);
   cProb @3 :Float32;
   lPoly @4 :List(Float32);
   lProb @5 :Float32;
   rPoly @6 :List(Float32);
   rProb @7 :Float32;
-  pPoly @20 :List(Float32);
-  pProb @21 :Float32;
 
   angleSteers @8 :Float32; # deg
   rateSteers @13 :Float32; # deg/s
@@ -701,13 +705,13 @@ struct PathPlan {
   paramsValid @10 :Bool;
   modelValidDEPRECATED @12 :Bool;
   angleOffset @11 :Float32;
-  angleBias @22 :Float32;
-  mpcAngles @17 :List(Float32);
-  mpcRates @18 :List(Float32);
-  mpcTimes @19 :List(Float32);
   sensorValid @14 :Bool;
   commIssue @15 :Bool;
   posenetValid @16 :Bool;
+  angleBias @20 :Float32;
+  mpcAngles @17 :List(Float32);
+  mpcRates @18 :List(Float32);
+  mpcTimes @19 :List(Float32);
 }
 
 struct LiveLocationData {
@@ -1693,6 +1697,8 @@ struct DriverMonitoring {
   faceProb @5 :Float32;
   leftEyeProb @6 :Float32;
   rightEyeProb @7 :Float32;
+  leftBlinkProb @8 :Float32;
+  rightBlinkProb @9 :Float32;
 }
 
 struct Boot {

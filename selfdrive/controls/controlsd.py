@@ -19,8 +19,9 @@ from selfdrive.controls.lib.drive_helpers import get_events, \
                                                  update_v_cruise, \
                                                  initialize_v_cruise
 from selfdrive.controls.lib.longcontrol import LongControl, STARTING_TARGET_SPEED
-from selfdrive.controls.lib.latcontrol_pid import LatControlPID
+from selfdrive.controls.lib.latcontrol_lif import LatControlLIF
 from selfdrive.controls.lib.latcontrol_indi import LatControlINDI
+from selfdrive.controls.lib.latcontrol_lqr import LatControlLQR
 from selfdrive.controls.lib.alertmanager import AlertManager
 from selfdrive.controls.lib.vehicle_model import VehicleModel
 from selfdrive.controls.lib.driver_monitor import DriverStatus, MAX_TERMINAL_ALERTS
@@ -207,7 +208,7 @@ def state_transition(frame, CS, CP, state, events, soft_disable_timer, v_cruise_
   return state, soft_disable_timer, v_cruise_kph, v_cruise_kph_last
 
 
-def state_control(frame, rcv_frame, plan, path_plan, live_params, CS, CP, state, events, v_cruise_kph, v_cruise_kph_last,
+def state_control(frame, rcv_frame, plan, path_plan, live_params, live_mpc, CS, CP, state, events, v_cruise_kph, v_cruise_kph_last,
                   AM, rk, driver_status, LaC, LoC, VM, read_only, is_metric, cal_perc):
   """Given the state, this function returns an actuators packet"""
 
@@ -219,7 +220,7 @@ def state_control(frame, rcv_frame, plan, path_plan, live_params, CS, CP, state,
   # check if user has interacted with the car
   driver_engaged = len(CS.buttonEvents) > 0 or \
                    v_cruise_kph != v_cruise_kph_last or \
-                   CS.steeringPressed or \
+                   CS.steeringPressed or CS.vEgo == 0.0 or \
                    CS.gasPressed
 
   # add eventual driver distracted events
@@ -256,8 +257,7 @@ def state_control(frame, rcv_frame, plan, path_plan, live_params, CS, CP, state,
   actuators.gas, actuators.brake = LoC.update(active, CS.vEgo, CS.brakePressed, CS.standstill, CS.cruiseState.standstill,
                                               v_cruise_kph, v_acc_sol, plan.vTargetFuture, a_acc_sol, CP)
   # Steering PID loop and lateral MPC
-  actuators.steer, actuators.steerAngle, lac_log = LaC.update(active, CS.vEgo, CS.steeringAngle, CS.steeringRate,
-                                          CS.steeringPressed, CS.leftBlinker or CS.rightBlinker, CP, VM, path_plan, live_params)
+  actuators.steer, actuators.steerAngle, lac_log = LaC.update(active, CS.vEgo, CS.steeringAngle, CS.steeringRate, CS.steeringTorqueEps, CS.steeringPressed, CS.leftBlinker or CS.rightBlinker, CP, VM, path_plan, live_params, live_mpc)
 
   # Send a "steering required alert" if saturation count has reached the limit
   if LaC.sat_flag and CP.steerLimitAlert:
@@ -311,9 +311,9 @@ def data_send(sm, CS, CI, CP, VM, state, events, actuators, v_cruise_kph, rk, ca
   ldw_allowed = CS.vEgo > 12.5 and not blinker
 
   if len(list(sm['pathPlan'].rPoly)) == 4:
-    CC.hudControl.rightLaneDepart = bool(ldw_allowed and sm['pathPlan'].rPoly[3] > -(1 + CAMERA_OFFSET) and right_lane_visible)
+    CC.hudControl.rightLaneDepart = bool(ldw_allowed and sm['pathPlan'].rPoly[3] > -(1.08 + CAMERA_OFFSET) and right_lane_visible)
   if len(list(sm['pathPlan'].lPoly)) == 4:
-    CC.hudControl.leftLaneDepart = bool(ldw_allowed and sm['pathPlan'].lPoly[3] < (1 - CAMERA_OFFSET) and left_lane_visible)
+    CC.hudControl.leftLaneDepart = bool(ldw_allowed and sm['pathPlan'].lPoly[3] < (1.08 - CAMERA_OFFSET) and left_lane_visible)
 
   CC.hudControl.visualAlert = AM.visual_alert
   CC.hudControl.audibleAlert = AM.audible_alert
@@ -336,7 +336,7 @@ def data_send(sm, CS, CI, CP, VM, state, events, actuators, v_cruise_kph, rk, ca
     "alertStatus": AM.alert_status,
     "alertBlinkingRate": AM.alert_rate,
     "alertType": AM.alert_type,
-    "alertSound": "",  # no EON sounds yet
+    "alertSound": "",
     "awarenessStatus": max(driver_status.awareness, 0.0) if isEnabled(state) else 0.0,
     "driverMonitoringOn": bool(driver_status.monitor_on and driver_status.face_detected),
     "canMonoTimes": list(CS.canMonoTimes),
@@ -348,7 +348,7 @@ def data_send(sm, CS, CI, CP, VM, state, events, actuators, v_cruise_kph, rk, ca
     "vEgoRaw": CS.vEgoRaw,
     "angleSteers": CS.steeringAngle,
     "dampAngleSteers": float(LaC.damp_angle_steers),
-    "curvature": VM.calc_curvature((CS.steeringAngle - sm['liveParameters'].angleOffset) * CV.DEG_TO_RAD, CS.vEgo),
+    "curvature": VM.calc_curvature((CS.steeringAngle - sm['liveParameters'].angleOffsetAverage - LaC.angle_bias) * CV.DEG_TO_RAD, CS.vEgo),
     "steerOverride": CS.steeringPressed,
     "state": state,
     "engageable": not bool(get_events(events, [ET.NO_ENTRY])),
@@ -364,6 +364,7 @@ def data_send(sm, CS, CI, CP, VM, state, events, actuators, v_cruise_kph, rk, ca
     "aTarget": float(a_acc),
     "jerkFactor": float(sm['plan'].jerkFactor),
     "angleModelBias": 0.,
+    "dampAngleBias": float(LaC.angle_bias),
     "gpsPlannerActive": sm['plan'].gpsPlannerActive,
     "vCurvature": sm['plan'].vCurvature,
     "decelForModel": sm['plan'].longitudinalPlanSource == log.Plan.LongitudinalPlanSource.model,
@@ -375,7 +376,9 @@ def data_send(sm, CS, CI, CP, VM, state, events, actuators, v_cruise_kph, rk, ca
 
   if CP.lateralTuning.which() == 'pid':
     dat.controlsState.lateralControlState.pidState = lac_log
-  else:
+  elif CP.lateralTuning.which() == 'lqr':
+    dat.controlsState.lateralControlState.lqrState = lac_log
+  elif CP.lateralTuning.which() == 'indi':
     dat.controlsState.lateralControlState.indiState = lac_log
   controlsstate.send(dat.to_bytes())
 
@@ -431,7 +434,7 @@ def controlsd_thread(gctx=None):
   is_metric = params.get("IsMetric") == "1"
   passive = params.get("Passive") != "0"
 
-  sm = messaging.SubMaster(['thermal', 'health', 'liveCalibration', 'driverMonitoring', 'plan', 'pathPlan', 'liveParameters'])
+  sm = messaging.SubMaster(['thermal', 'health', 'liveCalibration', 'driverMonitoring', 'plan', 'pathPlan', 'liveParameters', 'liveMpc'])
 
   logcan = messaging.sub_sock(service_list['can'].port)
 
@@ -468,9 +471,11 @@ def controlsd_thread(gctx=None):
   VM = VehicleModel(CP)
 
   if CP.lateralTuning.which() == 'pid':
-    LaC = LatControlPID(CP)
-  else:
+    LaC = LatControlLIF(CP)
+  elif CP.lateralTuning.which() == 'indi':
     LaC = LatControlINDI(CP)
+  elif CP.lateralTuning.which() == 'lqr':
+    LaC = LatControlLQR(CP)
 
   driver_status = DriverStatus()
 
@@ -534,7 +539,7 @@ def controlsd_thread(gctx=None):
 
     # Compute actuators (runs PID loops and lateral MPC)
     actuators, v_cruise_kph, driver_status, v_acc, a_acc, lac_log = \
-      state_control(sm.frame, sm.rcv_frame, sm['plan'], sm['pathPlan'], sm['liveParameters'], CS, CP, state, events, v_cruise_kph, v_cruise_kph_last, AM, rk,
+      state_control(sm.frame, sm.rcv_frame, sm['plan'], sm['pathPlan'], sm['liveParameters'], sm['liveMpc'], CS, CP, state, events, v_cruise_kph, v_cruise_kph_last, AM, rk,
                     driver_status, LaC, LoC, VM, read_only, is_metric, cal_perc)
 
     prof.checkpoint("State Control")

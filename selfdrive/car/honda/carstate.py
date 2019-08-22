@@ -8,7 +8,7 @@ from selfdrive.car.honda.values import CAR, DBC, STEER_THRESHOLD, SPEED_FACTOR, 
 def parse_gear_shifter(gear, vals):
 
   val_to_capnp = {'P': 'park', 'R': 'reverse', 'N': 'neutral',
-                  'D': 'drive', 'D': 'drive', 'D': 'drive'}  # 'S': 'sport', 'L': 'low'}
+                  'D': 'drive', 'S': 'sport', 'L': 'low'}
   try:
     return val_to_capnp[vals[gear]]
   except KeyError:
@@ -38,6 +38,7 @@ def get_can_signals(CP):
       ("STEER_ANGLE", "STEERING_SENSORS", 0),
       ("STEER_ANGLE_RATE", "STEERING_SENSORS", 0),
       ("STEER_TORQUE_SENSOR", "STEER_STATUS", 0),
+      ("STEER_TORQUE_MOTOR", "STEER_STATUS", 0),
       ("LEFT_BLINKER", "SCM_FEEDBACK", 0),
       ("RIGHT_BLINKER", "SCM_FEEDBACK", 0),
       ("GEAR", "GEARBOX", 0),
@@ -47,9 +48,9 @@ def get_can_signals(CP):
       ("BRAKE_SWITCH", "POWERTRAIN_DATA", 0),
       ("CRUISE_BUTTONS", "SCM_BUTTONS", 0),
       ("ESP_DISABLED", "VSA_STATUS", 1),
+      ("HUD_LEAD", "ACC_HUD", 0),
       ("USER_BRAKE", "VSA_STATUS", 0),
       ("BRAKE_HOLD_ACTIVE", "VSA_STATUS", 0),
-      ("HUD_LEAD", "ACC_HUD", 0),
       ("STEER_STATUS", "STEER_STATUS", 5),
       ("GEAR_SHIFTER", "GEARBOX", 0),
       ("PEDAL_GAS", "POWERTRAIN_DATA", 0),
@@ -113,12 +114,11 @@ def get_can_signals(CP):
 
   if CP.carFingerprint in (CAR.ACCORD, CAR.ACCORD_15, CAR.ACCORDH):
     signals += [("DRIVERS_DOOR_OPEN", "SCM_FEEDBACK", 1),
-                    ("LEAD_DISTANCE", "RADAR_HUD", 0)]
+                ("LEAD_DISTANCE", "RADAR_HUD", 0)]
     checks += [("RADAR_HUD", 50)]
   elif CP.carFingerprint in (CAR.CIVIC_BOSCH, CAR.CRV_HYBRID):
     signals += [("DRIVERS_DOOR_OPEN", "SCM_FEEDBACK", 1)]
     checks += [("RADAR_HUD", 50)]
-
   elif CP.carFingerprint == CAR.ODYSSEY_CHN:
     signals += [("DRIVERS_DOOR_OPEN", "SCM_BUTTONS", 1)]
   else:
@@ -191,17 +191,19 @@ class CarState(object):
     self.cruise_setting = 0
     self.v_cruise_pcm_prev = 0
     self.blinker_on = 0
-    self.lead_distance = 255
 
     self.left_blinker_on = 0
     self.right_blinker_on = 0
+
+    self.lead_distance = 255
+    self.cruise_mode = 0
+    self.stopped = 0
+    self.auto_resume = False
     self.cruise_mode = 0
     self.steer_data_reused = 0
     self.steer_data_skipped = 0
     self.steer_good_count = 0
     self.prev_steering_counter = 0
-
-    self.stopped = 0
 
     # vEgo kalman filter
     dt = 0.01
@@ -233,7 +235,7 @@ class CarState(object):
       self.standstill = cp.vl["ENGINE_DATA"]['XMISSION_SPEED'] < 0.1
       self.door_all_closed = not cp.vl["SCM_FEEDBACK"]['DRIVERS_DOOR_OPEN']
       self.lead_distance = cp.vl["RADAR_HUD"]['LEAD_DISTANCE']
-    elif self.CP.carFingerprint in (CAR.CIVIC_BOSCH, CAR.CRV_HYBRID): # TODO: find wheels moving bit in dbc
+    elif self.CP.carFingerprint in (CAR.CIVIC_BOSCH, CAR.CRV_HYBRID):
       self.standstill = cp.vl["ENGINE_DATA"]['XMISSION_SPEED'] < 0.1
       self.door_all_closed = not cp.vl["SCM_FEEDBACK"]['DRIVERS_DOOR_OPEN']
     elif self.CP.carFingerprint == CAR.ODYSSEY_CHN:
@@ -286,6 +288,9 @@ class CarState(object):
     self.gear = 0 if self.CP.carFingerprint == CAR.CIVIC else cp.vl["GEARBOX"]['GEAR']
     self.angle_steers = cp.vl["STEERING_SENSORS"]['STEER_ANGLE']
     self.angle_steers_rate = cp.vl["STEERING_SENSORS"]['STEER_ANGLE_RATE']
+
+    self.auto_resume = self.auto_resume and abs(self.angle_steers) < 30.0
+
     steer_counter = cp.vl["STEERING_SENSORS"]['COUNTER']
     if not (steer_counter == (self.prev_steering_counter + 1) % 4):
       if steer_counter == self.prev_steering_counter:
@@ -301,7 +306,7 @@ class CarState(object):
     self.cruise_buttons = cp.vl["SCM_BUTTONS"]['CRUISE_BUTTONS']
 
     if cp.vl["SCM_FEEDBACK"]['LEFT_BLINKER'] or cp.vl["SCM_FEEDBACK"]['RIGHT_BLINKER']:
-      self.blinker_on = 150
+      self.blinker_on = 200
       self.left_blinker_on = cp.vl["SCM_FEEDBACK"]['LEFT_BLINKER']
       self.right_blinker_on = cp.vl["SCM_FEEDBACK"]['RIGHT_BLINKER']
     elif self.blinker_on == 0:
@@ -333,6 +338,7 @@ class CarState(object):
       self.car_gas = cp.vl["GAS_PEDAL_2"]['CAR_GAS']
 
     self.steer_torque_driver = cp.vl["STEER_STATUS"]['STEER_TORQUE_SENSOR']
+    self.steer_torque_motor = cp.vl["STEER_STATUS"]['STEER_TORQUE_MOTOR']
     self.steer_override = abs(self.steer_torque_driver) > STEER_THRESHOLD[self.CP.carFingerprint]
 
     self.brake_switch = cp.vl["POWERTRAIN_DATA"]['BRAKE_SWITCH']
@@ -348,6 +354,8 @@ class CarState(object):
                           cp.ts["POWERTRAIN_DATA"]['BRAKE_SWITCH'] != self.brake_switch_ts)
         self.brake_switch_prev = self.brake_switch
         self.brake_switch_ts = cp.ts["POWERTRAIN_DATA"]['BRAKE_SWITCH']
+        if self.CP.carFingerprint in (CAR.CIVIC_BOSCH):
+          self.hud_lead = cp.vl["ACC_HUD"]['HUD_LEAD']
       else:
         self.brake_pressed = cp.vl["BRAKE_MODULE"]['BRAKE_PRESSED']
       # On set, cruise set speed pulses between 254~255 and the set speed prev is set to avoid this.
