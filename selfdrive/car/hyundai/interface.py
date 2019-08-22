@@ -60,6 +60,15 @@ class CarInterface(object):
     ret.lateralTuning.pid.polyFactor = 0.001
     ret.lateralTuning.pid.polyDampTime = 0.15
     ret.lateralTuning.pid.polyReactTime = 0.5
+
+    ret.lateralTuning.pid.lqr.scale = 1500.0
+    ret.lateralTuning.pid.lqr.a = [0., 1., -0.22619643, 1.21822268]
+    ret.lateralTuning.pid.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+    ret.lateralTuning.pid.lqr.c = [1., 0.]
+    ret.lateralTuning.pid.lqr.k = [-110.73572306, 451.22718255]
+    ret.lateralTuning.pid.lqr.l = [0.3233671, 0.3185757]
+    ret.lateralTuning.pid.lqr.dcGain = 0.002237852961363602
+
     ret.steerRateCost = 0.5
     tire_stiffness_factor = 1.
 

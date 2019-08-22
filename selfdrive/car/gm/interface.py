@@ -71,6 +71,15 @@ class CarInterface(object):
     ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
     ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.15], [0.01]]
     ret.lateralTuning.pid.kf = 0.000035   # full torque for 20 deg at 80mph means 0.00007818594
+
+    ret.lateralTuning.pid.lqr.scale = 1500.0
+    ret.lateralTuning.pid.lqr.a = [0., 1., -0.22619643, 1.21822268]
+    ret.lateralTuning.pid.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+    ret.lateralTuning.pid.lqr.c = [1., 0.]
+    ret.lateralTuning.pid.lqr.k = [-110.73572306, 451.22718255]
+    ret.lateralTuning.pid.lqr.l = [0.3233671, 0.3185757]
+    ret.lateralTuning.pid.lqr.dcGain = 0.002237852961363602
+
     tire_stiffness_factor = 0.444  # not optimized yet
 
     if candidate == CAR.VOLT:
