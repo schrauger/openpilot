@@ -13,11 +13,6 @@ class LQR(object):
 
     self.x_hat = np.array([[0], [0]])
 
-    self.reset()
-
-  def reset(self):
-    self.output_steer = 0.0
-
   def update(self, v_ego, angle_steers_des, angle_steers, eps_torque):
     torque_scale = (0.45 + v_ego / 60.0)**2  # Scale actuator model with speed
 
@@ -27,5 +22,4 @@ class LQR(object):
     self.x_hat = self.A.dot(self.x_hat) + self.B.dot(eps_torque / torque_scale) + self.L.dot(e)
 
     u_lqr = float(angle_steers_des / self.dc_gain - self.K.dot(self.x_hat))
-    print(torque_scale / self.scale, self.dc_gain)
     return torque_scale * u_lqr / self.scale

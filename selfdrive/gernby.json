@@ -14,5 +14,7 @@
   "actEffect":"-1",
   "innerGain":"-1",
   "outerGain":"-1",
-  "timeConst":"-1"
+  "timeConst":"-1",
+  "lgain":"-1",
+  "lscale":"-1"
 }
