@@ -59,12 +59,12 @@ class CarInterface(object):
     ret.steerRateCost = 1.0
     ret.lateralTuning.init('pid')
     ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
-    ret.lateralTuning.pid.dampTime = 0.0
-    ret.lateralTuning.pid.reactMPC = 0.025
+    ret.lateralTuning.pid.dampTime = 0.1
+    ret.lateralTuning.pid.reactMPC = 0.0
     ret.lateralTuning.pid.dampMPC = 0.1
     ret.lateralTuning.pid.rateFFGain = 0.4
     ret.lateralTuning.pid.polyFactor = 0.001
-    ret.lateralTuning.pid.polyDampTime = 0.15
+    ret.lateralTuning.pid.polyDampTime = 0.25
     ret.lateralTuning.pid.polyReactTime = 0.5
 
     ret.lateralTuning.pid.lqr.scale = 1500.0
@@ -86,13 +86,6 @@ class CarInterface(object):
       ret.mass = 3375. * CV.LB_TO_KG + STD_CARGO_KG
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.5], [0.03]]
       ret.lateralTuning.pid.kf = 0.00007   # full torque for 10 deg at 80mph means 0.00007818594
-      ret.lateralTuning.pid.dampTime = 0.0
-      ret.lateralTuning.pid.polyReactTime = 0.6
-      ret.lateralTuning.pid.polyFactor = 0.001
-      ret.lateralTuning.pid.polyDampTime = 0.15
-      ret.lateralTuning.pid.reactMPC = 0.025
-      ret.lateralTuning.pid.dampMPC = 0.1
-      ret.lateralTuning.pid.rateFFGain = 0.4
 
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
@@ -104,9 +97,6 @@ class CarInterface(object):
       ret.mass = 3650. * CV.LB_TO_KG + STD_CARGO_KG  # mean between normal and hybrid
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.03]]
       ret.lateralTuning.pid.kf = 0.00006   # full torque for 10 deg at 80mph means 0.00007818594
-      ret.lateralTuning.pid.dampTime = 0.0
-      ret.lateralTuning.pid.reactMPC = 0.025
-      ret.lateralTuning.pid.rateFFGain = 0.4
 
     elif candidate == CAR.COROLLA:
       stop_and_go = False
@@ -117,9 +107,6 @@ class CarInterface(object):
       ret.mass = 2860. * CV.LB_TO_KG + STD_CARGO_KG  # mean between normal and hybrid
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.2], [0.05]]
       ret.lateralTuning.pid.kf = 0.00003   # full torque for 20 deg at 80mph means 0.00007818594
-      ret.lateralTuning.pid.dampTime = 0.0
-      ret.lateralTuning.pid.reactMPC = 0.025
-      ret.lateralTuning.pid.rateFFGain = 0.4
 
     elif candidate == CAR.LEXUS_RXH:
       stop_and_go = True
@@ -150,9 +137,6 @@ class CarInterface(object):
       ret.mass = 3400. * CV.LB_TO_KG + STD_CARGO_KG #mean between normal and hybrid
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.1]]
       ret.lateralTuning.pid.kf = 0.00006
-      ret.lateralTuning.pid.dampTime = 0.0
-      ret.lateralTuning.pid.reactMPC = 0.025
-      ret.lateralTuning.pid.rateFFGain = 0.4
 
     elif candidate in [CAR.HIGHLANDER, CAR.HIGHLANDERH]:
       stop_and_go = True
