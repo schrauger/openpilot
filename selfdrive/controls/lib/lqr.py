@@ -28,6 +28,13 @@ class LQR(object):
     #ret.lateralTuning.pid.lqr.l = [0.3233671, 0.3185757]
     #ret.lateralTuning.pid.lqr.dcGain = 0.002237852961363602
 
+    #ret.lateralTuning.lqr.a = [0., 1., 0.98973369, -0.0087532]
+    #ret.lateralTuning.lqr.b = [2.97807477e-04, -2.44433928e-05]
+    #ret.lateralTuning.lqr.c = [1., 0.]
+    #ret.lateralTuning.lqr.k = [-24.91209918, 165.59203037]
+    #ret.lateralTuning.lqr.l = [-0.00758444, 0.12276381]
+    #ret.lateralTuning.lqr.dcGain = 0.0048496652936339275
+
     self.x_hat = np.array([[0], [0]])
 
   def update(self, v_ego, angle_steers_des, angle_steers, eps_torque):
