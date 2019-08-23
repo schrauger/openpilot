@@ -80,7 +80,7 @@ class LatControlLIF(object):
       self.poly_smoothing = max(1.0, float(kegman.conf['polyDamp']) * 100.)
       self.poly_factor = float(kegman.conf['polyFactor'])
       self.lqr.dc_gain = float(kegman.conf['lgain'])
-      self.lqr.scale = float(kegman.conf['lscale']) * CP.lateralTuning.pid.lqr.scale
+      self.lqr.torque_factor = float(kegman.conf['lscale'])
 
   def get_projected_path_error(self, v_ego, angle_feedforward, angle_steers, live_params, path_plan, VM):
     curv_factor = interp(abs(angle_feedforward), [1.0, 5.0], [0.0, 1.0])
@@ -116,9 +116,10 @@ class LatControlLIF(object):
     pid_log.steerAngle = float(angle_steers)
     pid_log.steerRate = float(angle_steers_rate)
 
-    max_bias_change = 0.001  #min(0.001, 0.0002 / (abs(self.angle_bias) + 0.000001))
+    max_bias_change = 0.002  #min(0.001, 0.0002 / (abs(self.angle_bias) + 0.000001))
     max_bias_change *= interp(abs(angle_steers - live_params.angleOffsetAverage - self.angle_bias), [0.0, 5.0], [0.25, 1.0])
-    max_bias_change *= interp(abs(path_plan.rateSteers), [1.0, 5.0], [0.25, 1.0])
+    max_bias_change *= interp(abs(path_plan.rateSteers), [0.0, 5.0], [0.25, 1.0])
+    max_bias_change = max(0.0005, max_bias_change)
     self.angle_bias = float(np.clip(live_params.angleOffset - live_params.angleOffsetAverage, self.angle_bias - max_bias_change, self.angle_bias + max_bias_change))
     self.live_tune(CP)
 

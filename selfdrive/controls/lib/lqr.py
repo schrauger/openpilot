@@ -3,6 +3,7 @@ import numpy as np
 class LQR(object):
   def __init__(self, CP, rate=100):
     self.scale = CP.lateralTuning.pid.lqr.scale
+    self.torque_factor = 1.0
 
     self.A = np.array(CP.lateralTuning.pid.lqr.a).reshape((2,2))  #  [[0.               1.            ],
                                                                   #   [-0.22619643      1.21822268    ]]
@@ -30,7 +31,7 @@ class LQR(object):
     self.x_hat = np.array([[0], [0]])
 
   def update(self, v_ego, angle_steers_des, angle_steers, eps_torque):
-    torque_scale = (0.45 + v_ego / 60.0)**2  # Scale actuator model with speed
+    torque_scale = self.torque_factor * (0.45 + v_ego / 60.0)**2  # Scale actuator model with speed
 
     # Update Kalman filter
     angle_steers_k = float(self.C.dot(self.x_hat))
