@@ -2,7 +2,7 @@ from selfdrive.controls.lib.pid import PIController
 from selfdrive.controls.lib.lqr import LQR
 from selfdrive.controls.lib.drive_helpers import get_steer_max
 from selfdrive.kegman_conf import kegman_conf
-from common.numpy_fast import interp
+from common.numpy_fast import interp, clip
 from cereal import log
 from common.realtime import sec_since_boot
 from common.params import Params
@@ -53,6 +53,7 @@ class LatControlLIF(object):
     self.driver_assist_hold = False
     self.angle_bias = 0.
     self.previous_lqr = 0.
+    self.p_scale = 0.
     self.x = 0.
 
     try:
@@ -79,7 +80,7 @@ class LatControlLIF(object):
       self.poly_smoothing = max(1.0, float(kegman.conf['polyDamp']) * 100.)
       self.poly_factor = float(kegman.conf['polyFactor'])
       self.lqr.dc_gain = float(kegman.conf['lgain'])
-      self.lqr.scale = float(kegman.conf['lscale'])
+      self.lqr.scale = float(kegman.conf['lscale']) * CP.lateralTuning.pid.lqr.scale
 
   def get_projected_path_error(self, v_ego, angle_feedforward, angle_steers, live_params, path_plan, VM):
     curv_factor = interp(abs(angle_feedforward), [1.0, 5.0], [0.0, 1.0])
@@ -129,6 +130,7 @@ class LatControlLIF(object):
       self.damp_rate_steers_des = 0.0
       self.damp_angle_steers_des = 0.0
       pid_log.active = False
+      self.lqr_output = self.lqr.update(v_ego, angle_steers - self.angle_bias, angle_steers - self.angle_bias, steering_torque)
       self.pid.reset()
     else:
       self.angle_steers_des = path_plan.angleSteers
@@ -172,19 +174,19 @@ class LatControlLIF(object):
 
       deadzone = 0.
       if abs(self.damp_angle_steers_des) >= abs(self.damp_angle_steers):
-        p_scale = 0.0
+        self.p_scale -= self.p_scale / 10.0
       else:
-        p_scale = 1.0
+        self.p_scale += (1.0 - self.p_scale) / 10.0
 
       pif_output = self.pid.update(self.damp_angle_steers_des, self.damp_angle_steers - self.angle_bias, check_saturation=(v_ego > 10), override=driver_opposing_i,
-                                     add_error=float(self.path_error), feedforward=steer_feedforward, speed=v_ego, deadzone=deadzone, p_scale=p_scale)
+                                     add_error=float(self.path_error), feedforward=steer_feedforward, speed=v_ego, deadzone=deadzone, p_scale=self.p_scale)
 
-      self.lqr_output = self.lqr.update(v_ego, self.damp_angle_steers_des - path_plan.angleOffset, angle_steers - path_plan.angleOffset - self.angle_bias, steering_torque)
-
+      self.lqr_output = self.lqr.update(v_ego, self.damp_angle_steers_des - path_plan.angleOffset, self.damp_angle_steers - path_plan.angleOffset - self.angle_bias, steering_torque - self.pid.p2)
+      #print(self.lqr_output, steering_torque, self.pid.p2)
       output_steer = self.lqr_output + pif_output
 
       pid_log.active = True
-      pid_log.lqr = float(self.lqr_output)
+      pid_log.lqr = float(clip(self.lqr_output, -1.0, 1.0))
       pid_log.p = float(self.pid.p)
       pid_log.i = float(self.pid.i)
       pid_log.f = float(self.pid.f)
@@ -200,7 +202,7 @@ class LatControlLIF(object):
         else:
           self.previous_lqr = self.lqr_output
           self.previous_integral = self.pid.i
-
+    #print(pid_log.lqr)
     self.prev_angle_steers = angle_steers
     self.prev_override = steer_override
     self.sat_flag = self.pid.saturated

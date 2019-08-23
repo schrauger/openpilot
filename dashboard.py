@@ -242,7 +242,6 @@ def dashboard_thread(rate=100):
               influxDataString += ("%0.3f,%0.2f,%0.2f,%d,%0.1f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%0.4f,%d|" %
                   (dat.angleSteersDes, dat.dampAngleSteersDes, dat.angleSteers,  dat.steerOverride, vEgo,
                   s.output, s.steerAngle, s.steerRate, s.rateSetPoint, s.steerAccel, s.accelSetPoint, s.accelError, s.delayedOutput, s.delta, receiveTime))
-
             #print(dat.upFine, dat.uiFine)
             frame_count += 1
 

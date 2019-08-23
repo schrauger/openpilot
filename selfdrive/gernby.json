@@ -1,5 +1,5 @@
 {
-  "tuneRev": "0.0.6",
+  "tuneRev": "0.0.8",
   "Kf": "-1",
   "Ki": "-1",
   "Kp": "-1",
@@ -16,5 +16,5 @@
   "outerGain":"-1",
   "timeConst":"-1",
   "lgain":"-1",
-  "lscale":"-1"
+  "lscale":"1.0"
 }
