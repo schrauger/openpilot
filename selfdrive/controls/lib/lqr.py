@@ -4,12 +4,28 @@ class LQR(object):
   def __init__(self, CP, rate=100):
     self.scale = CP.lateralTuning.pid.lqr.scale
 
-    self.A = np.array(CP.lateralTuning.pid.lqr.a).reshape((2,2))
-    self.B = np.array(CP.lateralTuning.pid.lqr.b).reshape((2,1))
-    self.C = np.array(CP.lateralTuning.pid.lqr.c).reshape((1,2))
-    self.K = np.array(CP.lateralTuning.pid.lqr.k).reshape((1,2))
-    self.L = np.array(CP.lateralTuning.pid.lqr.l).reshape((2,1))
+    self.A = np.array(CP.lateralTuning.pid.lqr.a).reshape((2,2))  #  [[0.               1.            ],
+                                                                  #   [-0.22619643      1.21822268    ]]
+
+    self.B = np.array(CP.lateralTuning.pid.lqr.b).reshape((2,1))  #  [[-1.92006585e-04                ],
+                                                                  #   [3.95603032e-05                 ]]
+
+    self.C = np.array(CP.lateralTuning.pid.lqr.c).reshape((1,2))  #  [[1.               0.            ]
+
+    self.K = np.array(CP.lateralTuning.pid.lqr.k).reshape((1,2))  #  [[-110.73572306    451.22718255  ]]
+
+    self.L = np.array(CP.lateralTuning.pid.lqr.l).reshape((2,1))  #  [[0.3233671                      ],
+                                                                  #   [0.3185757                      ]]
+
     self.dc_gain = CP.lateralTuning.pid.lqr.dcGain
+
+    #ret.lateralTuning.pid.lqr.scale = 1500.0
+    #ret.lateralTuning.pid.lqr.a = [0., 1., -0.22619643, 1.21822268]
+    #ret.lateralTuning.pid.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+    #ret.lateralTuning.pid.lqr.c = [1., 0.]
+    #ret.lateralTuning.pid.lqr.k = [-110.73572306, 451.22718255]
+    #ret.lateralTuning.pid.lqr.l = [0.3233671, 0.3185757]
+    #ret.lateralTuning.pid.lqr.dcGain = 0.002237852961363602
 
     self.x_hat = np.array([[0], [0]])
 

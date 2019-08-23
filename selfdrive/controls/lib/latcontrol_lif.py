@@ -176,12 +176,12 @@ class LatControlLIF(object):
       if abs(self.damp_angle_steers_des) >= abs(self.damp_angle_steers):
         self.p_scale -= self.p_scale / 10.0
       else:
-        self.p_scale += (1.0 - self.p_scale) / 10.0
+        self.p_scale += (self.angle_ff_ratio - self.p_scale) / 10.0
 
       pif_output = self.pid.update(self.damp_angle_steers_des, self.damp_angle_steers - self.angle_bias, check_saturation=(v_ego > 10), override=driver_opposing_i,
                                      add_error=float(self.path_error), feedforward=steer_feedforward, speed=v_ego, deadzone=deadzone, p_scale=self.p_scale)
 
-      self.lqr_output = self.lqr.update(v_ego, self.damp_angle_steers_des - path_plan.angleOffset, self.damp_angle_steers - path_plan.angleOffset - self.angle_bias, steering_torque - self.pid.p2)
+      self.lqr_output = self.lqr.update(v_ego, self.damp_angle_steers_des - path_plan.angleOffset, angle_steers - path_plan.angleOffset - self.angle_bias, steering_torque - self.pid.p2)
       #print(self.lqr_output, steering_torque, self.pid.p2)
       output_steer = self.lqr_output + pif_output
 
