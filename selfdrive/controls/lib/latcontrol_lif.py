@@ -1,5 +1,5 @@
 from selfdrive.controls.lib.pid import PIController
-from selfdrive.controls.lib.lqr import LQR
+#from selfdrive.controls.lib.lqr import LQR
 from selfdrive.controls.lib.future_angle import future_angle
 from selfdrive.controls.lib.drive_helpers import get_steer_max
 from selfdrive.kegman_conf import kegman_conf
@@ -17,7 +17,7 @@ class LatControlLIF(object):
     self.pid = PIController((CP.lateralTuning.pid.kpBP, CP.lateralTuning.pid.kpV),
                             (CP.lateralTuning.pid.kiBP, CP.lateralTuning.pid.kiV),
                             k_f=CP.lateralTuning.pid.kf, pos_limit=1.0)
-    self.lqr = LQR(CP)
+    #self.lqr = LQR(CP)
     self.future_angle = future_angle(CP)
     self.angle_steers_des = 0.
     self.total_poly_projection = max(0.0, CP.lateralTuning.pid.polyReactTime + CP.lateralTuning.pid.polyDampTime)
@@ -62,10 +62,14 @@ class LatControlLIF(object):
       lateral_params = self.params.get("LateralParams")
       lateral_params = json.loads(lateral_params)
       self.angle_ff_gain = max(1.0, float(lateral_params['angle_ff_gain']))
-      self.future_angle.torque_gain = np.array(lateral_params['torque_gain'])
-      self.future_angle.torque_gain_count = np.array(lateral_params['torque_gain_count'])
-      self.future_angle.o_torque_gain = np.array(lateral_params['torque_gain'])
-      self.future_angle.o_torque_gain_count = np.array(lateral_params['torque_gain_count'])
+      self.future_angle.torque_gain_outward = np.array(lateral_params['torque_gain_outward'])
+      self.future_angle.torque_gain_outward_count = np.array(lateral_params['torque_gain_outward_count'])
+      self.future_angle.torque_gain_inward = np.array(lateral_params['torque_gain_inward'])
+      self.future_angle.torque_gain_inward_count = np.array(lateral_params['torque_gain_inward_count'])
+      self.future_angle.o_torque_gain_outward = np.array(lateral_params['o_torque_gain_outward'])
+      self.future_angle.o_torque_gain_outward_count = np.array(lateral_params['o_torque_gain_outward_count'])
+      self.future_angle.o_torque_gain_inward = np.array(lateral_params['o_torque_gain_inward'])
+      self.future_angle.o_torque_gain_inward_count = np.array(lateral_params['o_torque_gain_inward_count'])
     except:
       self.angle_ff_gain = 1.0
 
@@ -73,10 +77,14 @@ class LatControlLIF(object):
     self.frame += 1
     if self.frame % 6000 == 0:
       self.params.put("LateralParams", json.dumps({'angle_ff_gain': self.angle_ff_gain,
-                                                    "torque_gain": list(self.future_angle.torque_gain),
-                                                    "torque_gain_count": list(self.future_angle.torque_gain_count),
-                                                    "o_torque_gain": list(self.future_angle.o_torque_gain),
-                                                    "o_torque_gain_count": list(self.future_angle.o_torque_gain_count),
+                                                    "torque_gain_outward": list(self.future_angle.torque_gain_outward),
+                                                    "torque_gain_inward": list(self.future_angle.torque_gain_inward),
+                                                    "torque_gain_outward_count": list(self.future_angle.torque_gain_outward_count),
+                                                    "torque_gain_inward_count": list(self.future_angle.torque_gain_inward_count),
+                                                    "o_torque_gain_outward": list(self.future_angle.o_torque_gain_outward),
+                                                    "o_torque_gain_inward": list(self.future_angle.o_torque_gain_inward),
+                                                    "o_torque_gain_outward_count": list(self.future_angle.o_torque_gain_outward_count),
+                                                    "o_torque_gain_inward_count": list(self.future_angle.o_torque_gain_inward_count),
                                                     "inverted:": self.future_angle.inverted}))
     if self.frame % 300 == 0:
       # live tuning through /data/openpilot/tune.py overrides interface.py settings
@@ -90,8 +98,8 @@ class LatControlLIF(object):
       self.total_poly_projection = max(0.0, float(kegman.conf['polyReact']) + float(kegman.conf['polyDamp']))
       self.poly_smoothing = max(1.0, float(kegman.conf['polyDamp']) * 100.)
       self.poly_factor = float(kegman.conf['polyFactor'])
-      self.lqr.dc_gain = float(kegman.conf['lgain'])
-      self.lqr.torque_factor = float(kegman.conf['lscale'])
+      #self.lqr.dc_gain = float(kegman.conf['lgain'])
+      #self.lqr.torque_factor = float(kegman.conf['lscale'])
 
   def get_projected_path_error(self, v_ego, angle_feedforward, angle_steers, live_params, path_plan, VM):
     curv_factor = interp(abs(angle_feedforward), [1.0, 5.0], [0.0, 1.0])
@@ -112,9 +120,7 @@ class LatControlLIF(object):
     self.pid.reset()
 
   def adjust_angle_gain(self):
-    if ((self.pid.f > 0) == (self.pid.i > 0) and (abs(self.pid.i) >= abs(self.previous_integral))) or \
-      ((self.pid.f > 0) == (self.lqr_output > 0) and (abs(self.lqr_output) >= abs(self.previous_lqr))) or \
-      ((self.pid.f > 0) == (self.lqr_output > 0) and (self.pid.f > 0) == (self.pid.i > 0)):
+    if ((self.pid.f > 0) == (self.pid.i > 0) and (abs(self.pid.i) >= abs(self.previous_integral))):
       #if not abs(self.pid.f + self.pid.i + self.pid.p) > 1: self.angle_ff_gain *= 1.0001
       if (self.pid.p2 >= 0) == (self.pid.f >= 0) and abs(self.pid.f) < 1.0: self.angle_ff_gain *= 1.0001
     elif self.angle_ff_gain > 1.0:
@@ -133,7 +139,7 @@ class LatControlLIF(object):
     max_bias_change = max(0.0005, max_bias_change)
     self.angle_bias = float(np.clip(live_params.angleOffset - live_params.angleOffsetAverage, self.angle_bias - max_bias_change, self.angle_bias + max_bias_change))
     self.live_tune(CP)
-    self.damp_angle_steers = self.future_angle.update(v_ego, angle_steers, angle_steers_rate, steering_torque, steer_override or not active)
+    self.damp_angle_steers = angle_steers + self.future_angle.update(v_ego, angle_steers - path_plan.angleOffset, angle_steers_rate, steering_torque, steer_override or not active)
 
     if v_ego < 0.3 or not active:
       output_steer = 0.0
@@ -143,7 +149,7 @@ class LatControlLIF(object):
       self.damp_rate_steers_des = 0.0
       self.damp_angle_steers_des = 0.0
       pid_log.active = False
-      self.lqr_output = self.lqr.update(v_ego, angle_steers - self.angle_bias, angle_steers - self.angle_bias, steering_torque)
+      #self.lqr_output = self.lqr.update(v_ego, angle_steers - self.angle_bias, angle_steers - self.angle_bias, steering_torque)
       self.pid.reset()
     else:
       self.angle_steers_des = path_plan.angleSteers
@@ -192,8 +198,8 @@ class LatControlLIF(object):
       #else:
       #  self.p_scale += (self.angle_ff_ratio - self.p_scale) / 10.0
 
-      pif_output = self.pid.update(self.damp_angle_steers_des + self.path_error, self.damp_angle_steers - self.angle_bias, check_saturation=(v_ego > 10), override=driver_opposing_i,
-                                     feedforward=steer_feedforward, speed=v_ego, deadzone=deadzone)  #, p_scale=self.p_scale)
+      pif_output = self.pid.update(self.damp_angle_steers_des, self.damp_angle_steers - self.angle_bias, check_saturation=(v_ego > 10), override=driver_opposing_i,
+                                     add_error=float(self.path_error), feedforward=steer_feedforward, speed=v_ego, deadzone=deadzone)  #, p_scale=self.p_scale)
       #pif_output = self.pid.update(self.damp_angle_steers_des, self.damp_angle_steers - self.angle_bias, check_saturation=(v_ego > 10), override=driver_opposing_i,
       #                               add_error=float(self.path_error), feedforward=steer_feedforward, speed=v_ego, deadzone=deadzone, p_scale=self.p_scale)
 

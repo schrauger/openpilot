@@ -56,8 +56,8 @@ class PathPlanner(object):
 
   def update(self, sm, CP, VM):
     v_ego = sm['carState'].vEgo
-    #angle_steers = sm['controlsState'].dampAngleSteers
-    angle_steers = sm['carState'].steeringAngle
+    angle_steers = sm['controlsState'].dampAngleSteers
+    #angle_steers = sm['carState'].steeringAngle
     cur_time = sec_since_boot()
     angle_offset_average = sm['liveParameters'].angleOffsetAverage
     angle_offset = sm['controlsState'].dampAngleBias + angle_offset_average
