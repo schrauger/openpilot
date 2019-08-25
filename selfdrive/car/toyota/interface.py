@@ -175,7 +175,7 @@ class CarInterface(object):
       tire_stiffness_factor = 0.7933
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.6], [0.1]]
       ret.mass = 3370. * CV.LB_TO_KG + STD_CARGO_KG
-      ret.lateralTuning.pid.kf = 0.00007818594
+      ret.lateralTuning.pid.kf = 0.00006
 
     elif candidate == CAR.COROLLA_TSS2:
       stop_and_go = True
