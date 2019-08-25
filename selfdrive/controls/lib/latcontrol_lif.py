@@ -71,7 +71,7 @@ class LatControlLIF(object):
       # live tuning through /data/openpilot/tune.py overrides interface.py settings
       kegman = kegman_conf()
       self.pid._k_i = ([0.], [float(kegman.conf['Ki'])])
-      self.pid._k_p = ([0.], [float(kegman.conf['Kp'])])
+      self.pid._k_p = ([0.], [float(kegman.conf['Kp'])]) * 0.5
       self.pid.k_f = (float(kegman.conf['Kf']))
       self.damp_time = (float(kegman.conf['dampTime']))
       self.react_mpc = (float(kegman.conf['reactMPC']))
