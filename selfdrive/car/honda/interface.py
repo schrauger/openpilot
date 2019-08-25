@@ -5,6 +5,7 @@ from cereal import car
 from common.numpy_fast import clip, interp
 from common.realtime import sec_since_boot, DT_CTRL
 from selfdrive.swaglog import cloudlog
+from selfdrive.controls.lib.future_angle import future_angle
 from selfdrive.config import Conversions as CV
 from selfdrive.controls.lib.drive_helpers import create_event, EventTypes as ET, get_events
 from selfdrive.controls.lib.vehicle_model import VehicleModel
@@ -74,6 +75,7 @@ def get_compute_gb_acura():
 class CarInterface(object):
   def __init__(self, CP, CarController):
     self.CP = CP
+    self.future_angle = future_angle(CP)
 
     self.frame = 0
     self.last_enable_pressed = 0
@@ -168,12 +170,12 @@ class CarInterface(object):
 
     ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
     ret.lateralTuning.pid.kf = 0.00006 # conservative feed-forward
-    ret.lateralTuning.pid.dampTime = 0.1
+    ret.lateralTuning.pid.dampTime = 0.0
     ret.lateralTuning.pid.reactMPC = 0.0
-    ret.lateralTuning.pid.dampMPC = 0.1
+    ret.lateralTuning.pid.dampMPC = 0.25
     ret.lateralTuning.pid.rateFFGain = 0.4
     ret.lateralTuning.pid.polyFactor = 0.002
-    ret.lateralTuning.pid.polyDampTime = 0.3
+    ret.lateralTuning.pid.polyDampTime = 0.15
     ret.lateralTuning.pid.polyReactTime = 0.5
 
     if candidate in [CAR.CIVIC, CAR.CIVIC_BOSCH]:
