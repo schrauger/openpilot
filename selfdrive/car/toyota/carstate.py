@@ -4,7 +4,6 @@ from selfdrive.can.can_define import CANDefine
 from selfdrive.can.parser import CANParser
 from selfdrive.config import Conversions as CV
 from selfdrive.car.toyota.values import CAR, DBC, STEER_THRESHOLD, TSS2_CAR
-import csv
 
 def parse_gear_shifter(gear, vals):
 
@@ -98,7 +97,7 @@ class CarState(object):
     self.left_blinker_on = 0
     self.right_blinker_on = 0
     self.isoffset = 0
-    self.offset = 0.0
+    self.offset = 0
 
     # initialize can parser
     self.car_fingerprint = CP.carFingerprint
@@ -181,7 +180,3 @@ class CarState(object):
       self.generic_toggle = cp.vl["AUTOPARK_STATUS"]['STATE'] != 0
     else:
       self.generic_toggle = bool(cp.vl["LIGHT_STALK"]['AUTO_HIGH_BEAM'])
-    #keras datalogging
-    with open('/data/kerasdata.csv', mode='a') as kerasdata:
-        keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        keras_writer.writerow([self.angle_steers_old, self.angle_steers, self.angle_steers_rate, self.steer_torque_driver, self.steer_torque_motor])
