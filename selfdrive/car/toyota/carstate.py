@@ -112,9 +112,6 @@ class CarState(object):
                          C=[1.0, 0.0],
                          K=[[0.12287673], [0.29666309]])
     self.v_ego = 0.0
-    
-    with open('/data/kerasdata.csv', mode='a') as kerasdata:
-        self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
   def update(self, cp):
     # update prevs, update must run once per loop
@@ -184,6 +181,7 @@ class CarState(object):
       self.generic_toggle = cp.vl["AUTOPARK_STATUS"]['STATE'] != 0
     else:
       self.generic_toggle = bool(cp.vl["LIGHT_STALK"]['AUTO_HIGH_BEAM'])
-      
     #keras datalogging
-    self.keras_writer.writerow([self.angle_steers_old, self.angle_steers, self.angle_steers_rate, self.steer_torque_driver, self.steer_torque_motor])
+    with open('/data/kerasdata.csv', mode='a') as kerasdata:
+        keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        keras_writer.writerow([self.angle_steers_old, self.angle_steers, self.angle_steers_rate, self.steer_torque_driver, self.steer_torque_motor])
