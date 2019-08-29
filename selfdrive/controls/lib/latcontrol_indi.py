@@ -8,6 +8,7 @@ from selfdrive.car.toyota.carcontroller import SteerLimitParams
 from selfdrive.car import apply_toyota_steer_torque_limits
 from selfdrive.controls.lib.drive_helpers import get_steer_max
 from selfdrive.kegman_conf import kegman_conf
+import csv
 
 
 class LatControlINDI(object):
@@ -74,7 +75,7 @@ class LatControlINDI(object):
 
       self.mpc_frame = 0
 
-  def update(self, active, v_ego, angle_steers, angle_steers_rate, steer_override, CP, VM, path_plan):
+  def update(self, active, v_ego, angle_steers, angle_steers_rate, steer_override, CP, VM, path_plan, steeringAngleShitty):
 
     # Trigger Live tuning
     self.live_tune(CP)
@@ -94,11 +95,11 @@ class LatControlINDI(object):
       self.delayed_output = 0.0
     else:
       if self.angle_steers_des > 0.5:
-          self.angle_steers_des = round(path_plan.angleSteers / (interp(abs(path_plan.angleSteers), [0,10], [1.1, 1.2])), 2)
+          self.angle_steers_des = path_plan.angleSteers / (interp(abs(path_plan.angleSteers), [0,10], [1.1, 1.2]))
       elif self.angle_steers_des < -0.5:
-          self.angle_steers_des = round(path_plan.angleSteers / (interp(abs(path_plan.angleSteers), [0,10], [1.0, 1.2])), 2)
+          self.angle_steers_des = path_plan.angleSteers / (interp(abs(path_plan.angleSteers), [0,10], [1.0, 1.2]))
       else:
-          self.angle_steers_des = round(path_plan.angleSteers, 2)
+          self.angle_steers_des = path_plan.angleSteers
 
       self.rate_steers_des = path_plan.rateSteers
 
@@ -137,6 +138,10 @@ class LatControlINDI(object):
       indi_log.delayedOutput = float(self.delayed_output)
       indi_log.delta = float(delta_u)
       indi_log.output = float(self.output_steer)
+      #keras datalogging
+      with open('/data/kerasdata.csv', mode='a') as kerasdata:
+          self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+          self.keras_writer.writerow([angle_steers, steeringAngleShitty, self.output_steer])
 
     self.sat_flag = False
     return float(self.output_steer), float(self.angle_steers_des), indi_log

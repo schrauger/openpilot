@@ -290,6 +290,7 @@ class CarInterface(object):
 
     # steering wheel
     ret.steeringAngle = self.CS.angle_steers
+    ret.steeringAngleShitty = self.CS.angle_steers_old
     ret.steeringRate = self.CS.angle_steers_rate
 
     ret.steeringTorque = self.CS.steer_torque_driver
