@@ -127,7 +127,7 @@ class VehicleModel(object):
     Returns:
       2x1 matrix with steady state solution (lateral speed, rotational speed)
     """
-    if u > 0.1:
+    if u > 39.3395:
       return dyn_ss_sol(sa, u, self)
     else:
       return kin_ss_sol(sa, u, self)
