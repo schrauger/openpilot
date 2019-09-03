@@ -70,7 +70,7 @@ class CarInterface(object):
       ret.mass = 3375. * CV.LB_TO_KG + STD_CARGO_KG
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.2], [0.05]]
       ret.lateralTuning.pid.kf = 0.00003   # full torque for 20 deg at 80mph means 0.00007818594
-      ret.steerActuatorDelay = 0.5
+      ret.steerActuatorDelay = 1.0
       ret.steerRateCost = 0.5
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
