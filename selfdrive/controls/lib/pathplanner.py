@@ -65,12 +65,12 @@ class PathPlanner(object):
     curvature_factor = VM.curvature_factor(v_ego)
 
     # TODO: Check for active, override, and saturation
-    if active:
-       self.path_offset_i += self.LP.d_poly[3] / (60.0 * 20.0)
-       self.path_offset_i = clip(self.path_offset_i, -0.5,  0.5)
-       self.LP.d_poly[3] += self.path_offset_i
-    else:
-       self.path_offset_i = 0.0
+    #if active:
+    #   self.path_offset_i += self.LP.d_poly[3] / (60.0 * 20.0)
+    #   self.path_offset_i = clip(self.path_offset_i, -0.5,  0.5)
+    #   self.LP.d_poly[3] += self.path_offset_i
+    #else:
+    #   self.path_offset_i = 0.0
 
     # account for actuation delay
     self.cur_state = calc_states_after_delay(self.cur_state, v_ego, angle_steers, curvature_factor, VM.sR, CP.steerActuatorDelay)
