@@ -26,7 +26,7 @@ class LatControlPID(object):
       pid_log.active = False
       self.pid.reset()
     else:
-      self.d_poly_degrees = math.degrees(path_plan.dPoly[3])
+      self.d_poly_degrees = path_plan.dPoly[3]
       #self.angle_steers_des = path_plan.angleSteers  # get from MPC/PathPlanner
       self.angle_steers_des = self.d_poly_degrees
 
