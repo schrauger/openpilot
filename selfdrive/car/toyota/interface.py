@@ -71,7 +71,7 @@ class CarInterface(object):
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.2], [0.05]]
       ret.lateralTuning.pid.kf = 0.00003   # full torque for 20 deg at 80mph means 0.00007818594
 
-      ret.steerActuatorDelay = 0.7 #good value for ZSS PID, could still use fine tuning
+      ret.steerActuatorDelay = 1.0 #disabled
       ret.steerRateCost = 0.5
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:

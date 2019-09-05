@@ -1,8 +1,7 @@
 import os
 import math
 import numpy as np
-
-# from common.numpy_fast import clip
+from common.numpy_fast import clip
 from common.realtime import sec_since_boot
 from selfdrive.services import service_list
 from selfdrive.swaglog import cloudlog
@@ -17,6 +16,7 @@ LOG_MPC = os.environ.get('LOG_MPC', False)
 def calc_states_after_delay(states, v_ego, steer_angle, curvature_factor, steer_ratio, delay):
   states[0].x = v_ego * delay
   states[0].psi = v_ego * curvature_factor * math.radians(steer_angle) / steer_ratio * delay
+  states[0].delta = math.radians(steer_angle) / steer_ratio
   return states
 
 
@@ -54,7 +54,8 @@ class PathPlanner(object):
     angle_steers = sm['carState'].steeringAngle
     active = sm['controlsState'].active
 
-    angle_offset = sm['liveParameters'].angleOffsetAverage
+    #angle_offset = sm['liveParameters'].angleOffsetAverage
+    angle_offset = 0
 
     self.LP.update(v_ego, sm['model'])
 
@@ -64,12 +65,12 @@ class PathPlanner(object):
     curvature_factor = VM.curvature_factor(v_ego)
 
     # TODO: Check for active, override, and saturation
-    # if active:
-    #   self.path_offset_i += self.LP.d_poly[3] / (60.0 * 20.0)
-    #   self.path_offset_i = clip(self.path_offset_i, -0.5,  0.5)
-    #   self.LP.d_poly[3] += self.path_offset_i
-    # else:
-    #   self.path_offset_i = 0.0
+    if active:
+       self.path_offset_i += self.LP.d_poly[3] / (60.0 * 20.0)
+       self.path_offset_i = clip(self.path_offset_i, -0.5,  0.5)
+       self.LP.d_poly[3] += self.path_offset_i
+    else:
+       self.path_offset_i = 0.0
 
     # account for actuation delay
     self.cur_state = calc_states_after_delay(self.cur_state, v_ego, angle_steers, curvature_factor, VM.sR, CP.steerActuatorDelay)
@@ -84,10 +85,10 @@ class PathPlanner(object):
       delta_desired = self.mpc_solution[0].delta[1]
       rate_desired = math.degrees(self.mpc_solution[0].rate[0] * VM.sR)
     else:
-      delta_desired = math.radians(angle_steers - angle_offset) / VM.sR
+      delta_desired = math.radians(angle_steers) / VM.sR
       rate_desired = 0.0
 
-    self.cur_state[0].delta = delta_desired
+    #self.cur_state[0].delta = delta_desired
 
     self.angle_steers_des_mpc = float(math.degrees(delta_desired * VM.sR) + angle_offset)
 
