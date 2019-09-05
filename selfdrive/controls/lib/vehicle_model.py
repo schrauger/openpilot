@@ -104,8 +104,8 @@ class VehicleModel(object):
     self.aR = self.l - self.aF #1.5120112
     self.chi = 0.0
 
-    self.cF_orig = CP.tireStiffnessFront
-    self.cR_orig = CP.tireStiffnessRear
+    self.cF_orig = 120000.
+    self.cR_orig = 120000.
     self.update_params(1.0, CP.steerRatio)
 
   def update_params(self, stiffness_factor, steer_ratio):
