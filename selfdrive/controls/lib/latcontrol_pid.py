@@ -2,6 +2,7 @@ from selfdrive.controls.lib.pid import PIController
 from selfdrive.controls.lib.drive_helpers import get_steer_max
 from cereal import car
 from cereal import log
+import math
 
 
 class LatControlPID(object):
@@ -10,6 +11,7 @@ class LatControlPID(object):
                             (CP.lateralTuning.pid.kiBP, CP.lateralTuning.pid.kiV),
                             k_f=CP.lateralTuning.pid.kf, pos_limit=1.0)
     self.angle_steers_des = 0.
+    self.d_poly_degrees = 0.
 
   def reset(self):
     self.pid.reset()
@@ -24,7 +26,9 @@ class LatControlPID(object):
       pid_log.active = False
       self.pid.reset()
     else:
-      self.angle_steers_des = path_plan.angleSteers  # get from MPC/PathPlanner
+      self.d_poly_degrees = math.degrees(path_plan.dPoly[3])
+      #self.angle_steers_des = path_plan.angleSteers  # get from MPC/PathPlanner
+      self.angle_steers_des = self.d_poly_degrees
 
       steers_max = get_steer_max(CP, v_ego)
       self.pid.pos_limit = steers_max
