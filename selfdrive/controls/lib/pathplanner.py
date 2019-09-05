@@ -2,7 +2,7 @@ import os
 import math
 import numpy as np
 
-from common.numpy_fast import clip
+#from common.numpy_fast import clip
 from common.realtime import sec_since_boot
 from selfdrive.services import service_list
 from selfdrive.swaglog import cloudlog
@@ -55,7 +55,8 @@ class PathPlanner(object):
     active = sm['controlsState'].active
 
     #angle_offset = sm['liveParameters'].angleOffsetAverage
-    angle_offset = self.path_offset_i
+    #angle_offset = self.path_offset_i
+    angle_offset = 0
 
     self.LP.update(v_ego, sm['model'])
 
@@ -65,12 +66,12 @@ class PathPlanner(object):
     curvature_factor = VM.curvature_factor(v_ego)
 
     # TODO: Check for active, override, and saturation
-    if active:
-      self.path_offset_i += self.LP.d_poly[3] / (60.0 * 20.0)
-      self.path_offset_i = clip(self.path_offset_i, -5.0,  5.0)
-      self.LP.d_poly[3] += self.path_offset_i
-    else:
-      self.path_offset_i = 0.0
+    #if active:
+    #  self.path_offset_i += self.LP.d_poly[3] / (60.0 * 20.0)
+    #  self.path_offset_i = clip(self.path_offset_i, -5.0,  5.0)
+    #  self.LP.d_poly[3] += self.path_offset_i
+    #else:
+    #  self.path_offset_i = 0.0
 
     # account for actuation delay
     self.cur_state = calc_states_after_delay(self.cur_state, v_ego, angle_steers, curvature_factor, VM.sR, CP.steerActuatorDelay)
