@@ -3,7 +3,7 @@
 #define PI 3.1415926536
 #define deg2rad(d) (d/180.0*PI)
 
-const int controlHorizon = 50;
+const int controlHorizon = 5;
 
 using namespace std;
 
