@@ -12,8 +12,8 @@ class CivicParams:
   CENTER_TO_FRONT = WHEELBASE * 0.4 #60/40
   CENTER_TO_REAR = WHEELBASE - CENTER_TO_FRONT
   ROTATIONAL_INERTIA = 2500
-  TIRE_STIFFNESS_FRONT = 192150
-  TIRE_STIFFNESS_REAR = 202500
+  TIRE_STIFFNESS_FRONT = 120000
+  TIRE_STIFFNESS_REAR = 120000
 
 # TODO: get actual value, for now starting with reasonable value for
 # civic and scaling by mass and wheelbase
