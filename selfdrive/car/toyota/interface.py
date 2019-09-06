@@ -55,7 +55,7 @@ class CarInterface(object):
     ret.enableCruise = not ret.enableGasInterceptor
 
     ret.steerActuatorDelay = 1.  # Default delay, Prius has larger delay
-    ret.steerRateCost = 1.
+    ret.steerRateCost = 0.2
 
     #if candidate not in [CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
     ret.lateralTuning.init('pid')
