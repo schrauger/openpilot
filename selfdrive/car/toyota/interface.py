@@ -72,7 +72,7 @@ class CarInterface(object):
       ret.lateralTuning.pid.kf = 0.00004
 
       ret.steerActuatorDelay = 1.0 #disabled
-      ret.steerRateCost = 0.3
+      ret.steerRateCost = 0.2
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
       stop_and_go = True if (candidate in CAR.RAV4H) else False
