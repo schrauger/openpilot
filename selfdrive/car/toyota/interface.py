@@ -63,7 +63,7 @@ class CarInterface(object):
 
     if candidate == CAR.PRIUS:
       stop_and_go = True
-      ret.safetyParam = 50  # see conversion factor for STEER_TORQUE_EPS in dbc file
+      ret.safetyParam = 66  # see conversion factor for STEER_TORQUE_EPS in dbc file
       ret.wheelbase = 2.70
       ret.steerRatio = 13.4   # unknown end-to-end spec
       tire_stiffness_factor = 1.   # hand-tune
