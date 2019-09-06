@@ -57,9 +57,9 @@ class CarInterface(object):
     ret.steerActuatorDelay = 0.12  # Default delay, Prius has larger delay
     ret.steerRateCost = 1.
 
-    if candidate not in [CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
-      ret.lateralTuning.init('pid')
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+    #if candidate not in [CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
+    ret.lateralTuning.init('pid')
+    ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
 
     if candidate == CAR.PRIUS:
       stop_and_go = True
@@ -81,12 +81,8 @@ class CarInterface(object):
       ret.steerRatio = 14.5   # 14.5 is spec end-to-end
       tire_stiffness_factor = 0.5533
       ret.mass = 3650. * CV.LB_TO_KG + STD_CARGO_KG  # mean between normal and hybrid
-
-      ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGain = 4.0
-      ret.lateralTuning.indi.outerLoopGain = 3.0
-      ret.lateralTuning.indi.timeConstant = 1.0
-      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.03]]
+      ret.lateralTuning.pid.kf = 0.00006
 
     elif candidate == CAR.COROLLA:
       stop_and_go = False
