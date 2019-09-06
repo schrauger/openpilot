@@ -68,8 +68,8 @@ class CarInterface(object):
       ret.steerRatio = 13.4   # unknown end-to-end spec
       tire_stiffness_factor = 1.   # hand-tune
       ret.mass = 3045. * CV.LB_TO_KG + STD_CARGO_KG
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.17], [0.03]]
-      ret.lateralTuning.pid.kf = 0.00006
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.03]]
+      ret.lateralTuning.pid.kf = 0.00004
 
       ret.steerActuatorDelay = 1.0 #disabled
       ret.steerRateCost = 0.3
