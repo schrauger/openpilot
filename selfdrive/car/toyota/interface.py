@@ -54,7 +54,7 @@ class CarInterface(object):
     # pedal
     ret.enableCruise = not ret.enableGasInterceptor
 
-    ret.steerActuatorDelay = 0.12  # Default delay, Prius has larger delay
+    ret.steerActuatorDelay = 1.  # Default delay, Prius has larger delay
     ret.steerRateCost = 1.
 
     #if candidate not in [CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
