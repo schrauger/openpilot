@@ -497,7 +497,7 @@ def update_ssh():
 
 def manager_update():
   #update_ssh()
-  update_apks()
+  #update_apks()
 
   uninstall = [app for app in get_installed_apks().keys() if app in ("com.spotify.music", "com.waze")]
   for app in uninstall:
