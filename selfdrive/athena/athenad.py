@@ -135,7 +135,7 @@ def getPublicKey():
 
 @dispatcher.add_method
 def getSshAuthorizedKeys():
-  with open('/system/comma/home/.ssh/authorized_keys', 'r') as f:
+  with open('/home/data/authorized_keys', 'r') as f:
     return f.read()
 
 @dispatcher.add_method
