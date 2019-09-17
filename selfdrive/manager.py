@@ -499,11 +499,6 @@ def manager_update():
   #update_ssh()
   #update_apks()
 
-  uninstall = [app for app in get_installed_apks().keys() if app in ("com.spotify.music", "com.waze")]
-  for app in uninstall:
-    cloudlog.info("uninstalling %s" % app)
-    os.system("pm uninstall % s" % app)
-
 def manager_prepare():
   # build cereal first
   subprocess.check_call(["make", "-j4"], cwd=os.path.join(BASEDIR, "cereal"))
