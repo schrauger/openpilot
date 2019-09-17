@@ -305,7 +305,7 @@ def cleanup_all_processes(signal, frame):
 # ****************** run loop ******************
 
 def manager_init(should_register=True):
-  if should_register:
+  if False:
     reg_res = register()
     if reg_res:
       dongle_id, dongle_secret = reg_res
