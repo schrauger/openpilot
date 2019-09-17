@@ -8,7 +8,7 @@
 #include <log/logprint.h>
 
 #include <zmq.h>
-#include <capnp/serialize.h>
+#include "capnp/serialize.h"
 #include "common/timing.h"
 #include "cereal/gen/cpp/log.capnp.h"
 

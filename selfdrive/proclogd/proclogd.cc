@@ -17,7 +17,7 @@
 #include <unordered_map>
 
 #include <zmq.h>
-#include <capnp/serialize.h>
+#include "capnp/serialize.h"
 #include "cereal/gen/cpp/log.capnp.h"
 
 #include "common/timing.h"

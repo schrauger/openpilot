@@ -8,7 +8,7 @@
 
 #include <pthread.h>
 #include <zmq.h>
-#include <capnp/serialize.h>
+#include "capnp/serialize.h"
 
 #include "cereal/gen/cpp/log.capnp.h"
 

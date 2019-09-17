@@ -23,7 +23,7 @@
 
 #include <libyuv.h>
 #include <czmq.h>
-#include <capnp/serialize.h>
+#include "capnp/serialize.h"
 #include <jpeglib.h>
 
 #ifdef QCOM

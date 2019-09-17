@@ -7,7 +7,7 @@
 
 #include "cereal/gen/cpp/log.capnp.h"
 #include <czmq.h>
-#include <capnp/serialize.h>
+#include "capnp/serialize.h"
 
 #ifdef __cplusplus
 extern "C" {
