@@ -495,10 +495,6 @@ def update_ssh():
       os.system("reboot")
       raise RuntimeError
 
-def manager_update():
-  #update_ssh()
-  #update_apks()
-
 def manager_prepare():
   # build cereal first
   subprocess.check_call(["make", "-j4"], cwd=os.path.join(BASEDIR, "cereal"))
