@@ -496,7 +496,7 @@ def update_ssh():
       raise RuntimeError
 
 def manager_update():
-  update_ssh()
+  #update_ssh()
   update_apks()
 
   uninstall = [app for app in get_installed_apks().keys() if app in ("com.spotify.music", "com.waze")]
