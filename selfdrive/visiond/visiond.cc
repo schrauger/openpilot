@@ -23,7 +23,7 @@
 
 #include <libyuv.h>
 #include <czmq.h>
-#include "/usr/lib/python2.7/site-packages/capnp/helpers/serialize.h"
+#include <capnp/serialize.h>
 #include <jpeglib.h>
 
 #ifdef QCOM

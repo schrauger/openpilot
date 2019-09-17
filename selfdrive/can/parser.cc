@@ -15,7 +15,7 @@
 
 #include <zmq.h>
 
-#include "/usr/lib/python2.7/site-packages/capnp/helpers/serialize.h"
+#include <capnp/serialize.h>
 #include "cereal/gen/cpp/log.capnp.h"
 
 #include "common.h"
