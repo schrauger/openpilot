@@ -7,7 +7,7 @@
 
 #include <czmq.h>
 #include <libyuv.h>
-#include "capnp/serialize.h"
+#include <capnp/serialize.h>
 #include "cereal/gen/cpp/log.capnp.h"
 
 #include "common/util.h"

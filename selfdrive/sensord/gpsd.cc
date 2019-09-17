@@ -19,7 +19,7 @@
 
 #include <zmq.h>
 
-#include "capnp/serialize.h"
+#include <capnp/serialize.h>
 
 #include "common/timing.h"
 #include "common/swaglog.h"
