@@ -2,7 +2,7 @@
 #include <tuple>
 #include <string>
 #include "common/timing.h"
-#include <capnp/serialize.h>
+#include "/usr/lib/python2.7/site-packages/capnp/helpers/serialize.h"
 #include "cereal/gen/cpp/log.capnp.h"
 #include "cereal/gen/cpp/car.capnp.h"
 

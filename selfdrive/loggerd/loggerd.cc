@@ -24,7 +24,7 @@
 
 #include <zmq.h>
 #include <yaml-cpp/yaml.h>
-#include <capnp/serialize.h>
+#include "/usr/lib/python2.7/site-packages/capnp/helpers/serialize.h"
 #include <cutils/properties.h>
 
 #include "common/version.h"
