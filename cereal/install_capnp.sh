@@ -25,10 +25,9 @@ cp .libs/*.a /usr/lib
 
 cd /tmp
 echo "Installing c-capnp"
-git clone https://github.com/commaai/c-capnproto.git
+git clone https://github.com/opensourcerouting/c-capnproto.git
 cd c-capnproto
 git submodule update --init --recursive
-autoreconf --add-missing
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
 make -j4
