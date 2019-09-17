@@ -2,7 +2,7 @@
 """ROS has a parameter server, we have files.
 
 The parameter store is a persistent key value store, implemented as a directory with a writer lock.
-On Android, we store params under params_dir = /data/params. The writer lock is a file
+On Android, we store params under params_dir = /home/data/params. The writer lock is a file
 "<params_dir>/.lock" taken using flock(), and data is stored in a directory symlinked to by
 "<params_dir>/d".
 
@@ -298,7 +298,7 @@ def write_db(params_path, key, value):
     lock.release()
 
 class Params(object):
-  def __init__(self, db='/data/params'):
+  def __init__(self, db='/home/data/params'):
     self.db = db
 
     # create the database if it doesn't exist...

@@ -445,7 +445,7 @@ if __name__ == "__main__":
       continue
 
     for _ in range(3):
-      shutil.rmtree('/data/params')
+      shutil.rmtree('/home/data/params')
       manager.gctx = {}
       params = Params()
       params.manager_start()

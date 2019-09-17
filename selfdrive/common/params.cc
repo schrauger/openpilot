@@ -24,7 +24,7 @@ T* null_coalesce(T* a, T* b) {
 }
 
 static const char* default_params_path = null_coalesce(
-    const_cast<const char*>(getenv("PARAMS_PATH")), "/data/params");
+    const_cast<const char*>(getenv("PARAMS_PATH")), "/home/data/params");
 
 }  // namespace
 

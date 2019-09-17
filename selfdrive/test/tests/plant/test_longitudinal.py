@@ -329,7 +329,7 @@ class LongitudinalControl(unittest.TestCase):
 
     setup_output()
 
-    shutil.rmtree('/data/params', ignore_errors=True)
+    shutil.rmtree('/home/data/params', ignore_errors=True)
     params = Params()
     params.put("Passive", "1" if os.getenv("PASSIVE") else "0")
 
