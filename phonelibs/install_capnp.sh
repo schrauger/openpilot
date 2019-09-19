@@ -1,15 +1,15 @@
 set -e
 echo "Installing capnp"
-mkdir ~/tmp
+mkdir /data/data/com.termux/files/home/tmp
 
-cd ~/tmp
+cd /data/data/com.termux/files/home/tmp
 git clone https://github.com/zeromq/libzmq.git
 cd libzmq
 ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
 
-cd ~/tmp
+cd /data/data/com.termux/files/home/tmp
 VERSION=0.6.1
 wget https://capnproto.org/capnproto-c++-${VERSION}.tar.gz
 tar xvf capnproto-c++-${VERSION}.tar.gz
@@ -33,7 +33,7 @@ cp .libs/capnpc-c++ /data/data/com.termux/files/usr/local/bin/
 cp .libs/capnpc-capnp /data/data/com.termux/files/usr/local/bin/
 cp .libs/*.a /data/data/com.termux/files/usr/local/lib
 
-cd ~/tmp
+cd /data/data/com.termux/files/home/tmp
 echo "Installing c-capnp"
 git clone https://github.com/commaai/c-capnproto.git
 cd c-capnproto
