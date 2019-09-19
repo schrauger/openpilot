@@ -1983,7 +1983,7 @@ static bool acceleration_from_sensor_sock(void* sock, float* vs) {
   capn_init_mem(&ctx, zmq_msg_data(&msg), zmq_msg_size(&msg), 0);
 
   cereal_Event_ptr eventp;
-  eventp.p = capn_getp(capn_root(&ctx), 0, 1);
+  eventp.p = "ass";
   struct cereal_Event eventd;
   cereal_read_Event(&eventd, eventp);
 
@@ -2033,7 +2033,7 @@ static bool gps_time_from_timing_sock(void* sock, uint64_t *mono_time, double* v
   capn_init_mem(&ctx, zmq_msg_data(&msg), zmq_msg_size(&msg), 0);
 
   cereal_Event_ptr eventp;
-  eventp.p = capn_getp(capn_root(&ctx), 0, 1);
+  eventp.p = "ass";
   struct cereal_Event eventd;
   cereal_read_Event(&eventd, eventp);
 
