@@ -26,6 +26,16 @@ cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=/data/data/com.termux/files/usr
 make install
 
+cd ..
+git clone https://github.com/adobkin/libcapn.git
+cd libcapn
+git submodule update --init
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/data/data/com.termux/files/usr ../
+make -j4
+make install
+
 
 cd /data/data/com.termux/files/home/tmp
 VERSION=0.6.1
