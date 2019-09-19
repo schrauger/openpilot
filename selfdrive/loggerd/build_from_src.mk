@@ -22,12 +22,12 @@ CXXFLAGS = -std=c++11 -g -fPIC -O2 $(WARN_FLAGS) \
             -I$(PHONELIBS)/android_system_core/include \
             -I$(PHONELIBS)/android_hardware_libhardware/include
 
-ZMQ_LIBS = -l:libczmq.a -l:libzmq.a
+ZMQ_LIBS =  -l:libzmq.a
 
 ifeq ($(ARCH),aarch64)
 CFLAGS += -mcpu=cortex-a57
 CXXFLAGS += -mcpu=cortex-a57
-ZMQ_LIBS += -lgnustl_shared
+ZMQ_LIBS += 
 endif
 
 
@@ -71,7 +71,7 @@ OBJS += loggerd.o \
 ifeq ($(ARCH),x86_64)
 CXXFLAGS += "-DDISABLE_ENCODER"
 ZMQ_LIBS = -L$(BASEDIR)/external/zmq/lib/ \
-           -l:libczmq.a -l:libzmq.a
+            -l:libzmq.a
 EXTRA_LIBS = -lpthread
 OPENMAX_LIBS = ""
 YAML_LIBS = $(PHONELIBS)/yaml-cpp/x64/lib/libyaml-cpp.a

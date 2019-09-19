@@ -19,7 +19,7 @@ CXXFLAGS = -std=c++11 -g -fPIC -O2 $(WARN_FLAGS) \
             -I$(PHONELIBS)/android_system_core/include \
             -I$(PHONELIBS)/android_hardware_libhardware/include
 
-ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -llog -luuid -lgnustl_shared
+ZMQ_LIBS =  -l:libzmq.a -llog -luuid 
 
 ifeq ($(ARCH),aarch64)
 CFLAGS += -mcpu=cortex-a57

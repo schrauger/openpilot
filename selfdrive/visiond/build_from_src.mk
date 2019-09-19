@@ -47,7 +47,7 @@ else
   LIBYUV_LIBS = $(PHONELIBS)/libyuv/x64/lib/libyuv.a
 
   ZMQ_FLAGS = -I$(PHONELIBS)/zmq/x64/include
-  ZMQ_LIBS = -L$(PHONELIBS)/zmq/x64/lib/ -l:libczmq.a -l:libzmq.a
+  ZMQ_LIBS = -L$(PHONELIBS)/zmq/x64/lib/  -l:libzmq.a
 
   OPENCL_LIBS = -lOpenCL
 
@@ -83,7 +83,7 @@ else
   LIBYUV_FLAGS = -I$(PHONELIBS)/libyuv/include
   LIBYUV_LIBS = $(PHONELIBS)/libyuv/lib/libyuv.a
 
-  ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lgnustl_shared
+  ZMQ_LIBS =  -l:libzmq.a 
 
   CURL_FLAGS = -I$(PHONELIBS)/curl/include
   CURL_LIBS = $(PHONELIBS)/curl/lib/libcurl.a \

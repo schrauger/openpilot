@@ -15,12 +15,12 @@ WARN_FLAGS = -Werror=implicit-function-declaration \
 
 CFLAGS = -std=gnu11 -g -fPIC -I../ -I../../ -O2 $(WARN_FLAGS) -Wall
 CXXFLAGS = -std=c++11 -g -fPIC -I../ -I../../ -O2 $(WARN_FLAGS) -Wall
-ZMQ_LIBS = -l:libczmq.a -l:libzmq.a
+ZMQ_LIBS =  -l:libzmq.a
 
 ifeq ($(ARCH),aarch64)
 CFLAGS += -mcpu=cortex-a57
 CXXFLAGS += -mcpu=cortex-a57
-ZMQ_LIBS += -lgnustl_shared
+ZMQ_LIBS += 
 endif
 
 
@@ -32,7 +32,7 @@ EXTRA_LIBS = -lpthread
 ifeq ($(ARCH),x86_64)
 ZMQ_FLAGS = -I$(BASEDIR)/phonelibs/zmq/x64/include
 ZMQ_LIBS = -L$(BASEDIR)/external/zmq/lib \
-           -l:libczmq.a -l:libzmq.a
+            -l:libzmq.a
 ZMQ_SHARED_LIBS = -L$(BASEDIR)/external/zmq/lib \
                   -lczmq -lzmq
 else
