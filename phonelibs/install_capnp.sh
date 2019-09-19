@@ -1,6 +1,6 @@
 set -e
 echo "Installing capnp"
-#mkdir /data/data/com.termux/files/home/tmp
+mkdir /data/data/com.termux/files/home/tmp
 
 cd /data/data/com.termux/files/home/tmp
 git clone https://github.com/zeromq/libzmq.git
