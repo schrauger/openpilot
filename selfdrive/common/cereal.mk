@@ -21,7 +21,7 @@ else
 
 #CEREAL_CXXFLAGS = -I$(PHONELIBS)/capnp-cpp/include
 ifeq ($(CEREAL_LIBS),)
-  CEREAL_LIBS =  -l:libcapnp.a -l:libkj.a
+  CEREAL_LIBS = -l:libcapn.a -l:libcapnp.a -l:libkj.a
 endif
 endif
 

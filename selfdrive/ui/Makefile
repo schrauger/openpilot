@@ -13,9 +13,9 @@ WARN_FLAGS = -Werror=implicit-function-declaration \
 CFLAGS = -std=gnu11 -fPIC -O2 $(WARN_FLAGS)
 CXXFLAGS = -std=c++11 -fPIC -O2 $(WARN_FLAGS)
 
-ZMQ_LIBS =  -l:libzmq.a 
+ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lgnustl_shared
 
-CEREAL_LIBS = 
+CEREAL_LIBS = -l:libcapn.a
 CEREAL_OBJS = ../../cereal/gen/c/log.capnp.o
 
 NANOVG_FLAGS = -I$(PHONELIBS)/nanovg

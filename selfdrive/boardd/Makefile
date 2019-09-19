@@ -16,7 +16,7 @@ WARN_FLAGS = -Werror=implicit-function-declaration \
 CFLAGS = -std=gnu11 -g -fPIC -I../ -I../../ -O2 $(WARN_FLAGS)
 CXXFLAGS = -std=c++11 -g -fPIC -I../ -I../../ -O2 $(WARN_FLAGS)
 
-ZMQ_LIBS =  -l:libzmq.a 
+ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lgnustl_shared
 
 JSON_FLAGS = -I$(PHONELIBS)/json/src
 
@@ -37,7 +37,7 @@ endif
 ifeq ($(ARCH),x86_64)
 ZMQ_FLAGS = -I$(PHONELIBS)/zmq/aarch64/include
 ZMQ_LIBS = -L$(BASEDIR)/external/zmq/lib/ \
-            -l:libzmq.a
+           -l:libczmq.a -l:libzmq.a
 EXTRA_LIBS = -lusb-1.0 -lpthread
 CXXFLAGS += -I/usr/include/libusb-1.0
 CFLAGS += -I/usr/include/libusb-1.0
