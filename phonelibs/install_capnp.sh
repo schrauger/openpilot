@@ -5,10 +5,17 @@ mkdir /data/data/com.termux/files/home/tmp
 cd /data/data/com.termux/files/home/tmp
 git clone https://github.com/zeromq/libzmq.git
 cd libzmq
+./autogen.sh
 autoreconf -f -i -s
 ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
+cd ..
+git clone git://github.com/zeromq/czmq.git
+cd czmq
+./autogen.sh && ./configure --prefix=/data/data/com.termux/files/usr
+make install
+
 
 cd /data/data/com.termux/files/home/tmp
 VERSION=0.6.1
