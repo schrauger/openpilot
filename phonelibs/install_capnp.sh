@@ -5,6 +5,7 @@ mkdir /data/data/com.termux/files/home/tmp
 cd /data/data/com.termux/files/home/tmp
 git clone https://github.com/zeromq/libzmq.git
 cd libzmq
+autoreconf -f -i -s
 ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
