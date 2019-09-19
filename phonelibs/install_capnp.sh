@@ -31,7 +31,7 @@ git clone https://github.com/commaai/c-capnproto.git
 cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
 
