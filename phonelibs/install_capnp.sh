@@ -2,6 +2,13 @@ set -e
 echo "Installing capnp"
 
 cd /tmp
+git clone https://github.com/zeromq/libzmq.git
+cd libzmq
+./configure --prefix=/data/data/com.termux/files/usr
+make -j4
+make install
+
+cd /tmp
 VERSION=0.6.1
 wget https://capnproto.org/capnproto-c++-${VERSION}.tar.gz
 tar xvf capnproto-c++-${VERSION}.tar.gz
