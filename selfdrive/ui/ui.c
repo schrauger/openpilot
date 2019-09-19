@@ -1594,7 +1594,7 @@ void handle_message(UIState *s, void *which) {
   capn_init_mem(&ctx, zmq_msg_data(&msg), zmq_msg_size(&msg), 0);
 
   cereal_Event_ptr eventp;
-  eventp.p = "ass";
+  eventp.p = capn_getp(capn_root(&ctx), 0, 1);
   struct cereal_Event eventd;
   cereal_read_Event(&eventd, eventp);
   double t = millis_since_boot();
