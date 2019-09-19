@@ -13,7 +13,17 @@ make install
 cd ..
 git clone git://github.com/zeromq/czmq.git
 cd czmq
+autoreconf -f -i -s
 ./autogen.sh && ./configure --prefix=/data/data/com.termux/files/usr
+make -j4
+make install
+
+cd ..
+git clone https://github.com/eigenteam/eigen-git-mirror.git
+cd eigen-git-mirror
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/data/data/com.termux/files/usr
 make install
 
 
