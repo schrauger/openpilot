@@ -102,8 +102,8 @@ class LatControlINDI(object):
       indi_log.delta = float(delta_u)
       indi_log.output = float(self.output_steer)
       #keras datalogging
-      with open('/data/kerassteerdata.csv', mode='a') as kerasdata:
-          self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+      with open('/data/kerassteerdata.csv', mode='a') as kerassteerdata:
+          self.keras_writer = csv.writer(kerassteerdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
           self.keras_writer.writerow([angle_steers, shitty_angle, zss, self.output_steer, wheel_speeds])
 
     self.sat_flag = False
