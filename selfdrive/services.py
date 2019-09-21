@@ -11,5 +11,5 @@ service_list_path = os.path.join(os.path.dirname(__file__), "service_list.yaml")
 
 service_list = {}
 with open(service_list_path, "r") as f:
-  for k, v in yaml.safe_load(f).items():
+  for k, v in yaml.unsafe_load(f).items():
     service_list[k] = Service(v[0], v[1], v[2])
