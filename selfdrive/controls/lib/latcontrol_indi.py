@@ -7,6 +7,7 @@ from common.numpy_fast import clip
 from selfdrive.car.toyota.carcontroller import SteerLimitParams
 from selfdrive.car import apply_toyota_steer_torque_limits
 from selfdrive.controls.lib.drive_helpers import get_steer_max
+import csv
 
 
 class LatControlINDI(object):
@@ -47,7 +48,7 @@ class LatControlINDI(object):
     self.output_steer = 0.
     self.counter = 0
 
-  def update(self, active, v_ego, angle_steers, angle_steers_rate, eps_torque, steer_override, CP, VM, path_plan):
+  def update(self, active, v_ego, angle_steers, angle_steers_rate, eps_torque, steer_override, CP, VM, path_plan, shitty_angle, zss, wheel_speeds):
     # Update Kalman filter
     y = np.matrix([[math.radians(angle_steers)], [math.radians(angle_steers_rate)]])
     self.x = np.dot(self.A_K, self.x) + np.dot(self.K, y)
@@ -100,6 +101,10 @@ class LatControlINDI(object):
       indi_log.delayedOutput = float(self.delayed_output)
       indi_log.delta = float(delta_u)
       indi_log.output = float(self.output_steer)
+      #keras datalogging
+      with open('/data/kerasdata.csv', mode='a') as kerasdata:
+          self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+          self.keras_writer.writerow([angle_steers, shitty_angle, zss, self.output_steer, wheel_speeds.fl, wheel_speeds.fr, wheel_speeds.rl, wheel_speeds.rr])
 
     self.sat_flag = False
     return float(self.output_steer), float(self.angle_steers_des), indi_log

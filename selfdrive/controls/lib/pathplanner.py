@@ -50,7 +50,7 @@ class PathPlanner(object):
     angle_steers = sm['carState'].steeringAngle
     active = sm['controlsState'].active
 
-    angle_offset = sm['liveParameters'].angleOffset
+    angle_offset = 0.
 
     self.LP.update(v_ego, sm['model'])
 
