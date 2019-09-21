@@ -20,6 +20,7 @@ def plannerd_thread(sm=None, pm=None):
   cloudlog.info("plannerd is waiting for CarParams")
   CP = car.CarParams.from_bytes(Params().get("CarParams", block=True))
   cloudlog.info("plannerd got CarParams: %s", CP.carName)
+  CS = car.CarState.from_bytes(Params().get("CarState", block=True))
 
   PL = Planner(CP)
   PP = PathPlanner(CP)
@@ -36,7 +37,6 @@ def plannerd_thread(sm=None, pm=None):
   sm['liveParameters'].sensorValid = True
   sm['liveParameters'].steerRatio = CP.steerRatio
   sm['liveParameters'].stiffnessFactor = 1.0
-  CS = sm['controlsState']
 
   while True:
     sm.update()
