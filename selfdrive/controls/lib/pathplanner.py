@@ -46,7 +46,7 @@ class PathPlanner(object):
     self.angle_steers_des_prev = 0.0
     self.angle_steers_des_time = 0.0
 
-  def update(self, sm, pm, CP, VM, CS):
+  def update(self, sm, pm, CP, VM):
     v_ego = sm['carState'].vEgo
     angle_steers = sm['carState'].steeringAngle
     active = sm['controlsState'].active
@@ -79,7 +79,7 @@ class PathPlanner(object):
     #keras datalogging
     with open('/data/kerasmodeldata.csv', mode='a') as kerasdata:
         self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        self.keras_writer.writerow([self.LP.l_poly, self.LP.r_poly, self.LP.p_poly, self.LP.d_poly, self.LP.l_prob, self.LP.r_prob, CS.steeringAngle, CS.shittyAngle, CS.zss, CS.vEgo])
+        self.keras_writer.writerow([self.LP.l_poly, self.LP.r_poly, self.LP.p_poly, self.LP.d_poly, self.LP.l_prob, self.LP.r_prob, CP.steeringAngle, CS.shittyAngle, CS.zss, CP.vEgo])
 
     # reset to current steer angle if not active or overriding
     if active:
