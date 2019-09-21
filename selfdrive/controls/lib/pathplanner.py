@@ -9,6 +9,7 @@ from selfdrive.controls.lib.lateral_mpc import libmpc_py
 from selfdrive.controls.lib.drive_helpers import MPC_COST_LAT
 from selfdrive.controls.lib.lane_planner import LanePlanner
 import selfdrive.messaging as messaging
+import csv
 
 LOG_MPC = os.environ.get('LOG_MPC', False)
 
@@ -74,6 +75,11 @@ class PathPlanner(object):
     self.libmpc.run_mpc(self.cur_state, self.mpc_solution,
                         list(self.LP.l_poly), list(self.LP.r_poly), list(self.LP.d_poly),
                         self.LP.l_prob, self.LP.r_prob, curvature_factor, v_ego_mpc, self.LP.lane_width)
+
+    #keras datalogging
+    with open('/data/kerasmodeldata.csv', mode='a') as kerasdata:
+        self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        self.keras_writer.writerow([self.LP.l_poly, self.LP.r_poly, self.LP.p_poly, self.LP.d_poly, self.LP.l_prob, self.LP.r_prob, CP.steeringAngle, CS.shittyAngle, CS.zss, CP.vEgo])
 
     # reset to current steer angle if not active or overriding
     if active:
