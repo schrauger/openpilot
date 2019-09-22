@@ -136,7 +136,7 @@ class PathPlanner(object):
     if v_ego > 11.176:
         with open('/data/kerasdata.csv', mode='a') as kerasdata:
             self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            self.keras_writer.writerow([angle_steers, v_ego, list(self.LP.l_poly), list(self.LP.r_poly), list(self.LP.d_poly),
+            self.keras_writer.writerow([angle_steers, v_ego, self.LP.l_poly, self.LP.r_poly, self.LP.d_poly,
             self.LP.l_prob, self.LP.r_prob])
 
     pm.send('pathPlan', plan_send)
