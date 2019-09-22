@@ -57,6 +57,7 @@ class CarInterface(object):
     ret.enableCruise = not ret.enableGasInterceptor
 
     ret.steerActuatorDelay = 0.12  # Default delay, Prius has larger delay
+    ret.steerRateCost = 1.
 
     if candidate not in [CAR.PRIUS, CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
       ret.lateralTuning.init('pid')
@@ -73,7 +74,7 @@ class CarInterface(object):
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGain = 4.0
       ret.lateralTuning.indi.outerLoopGain = 3.0
-      ret.lateralTuning.indi.timeConstant = 0.1
+      ret.lateralTuning.indi.timeConstant = 0.0
       ret.lateralTuning.indi.actuatorEffectiveness = 1.0
 
       # TODO: Determine if this is better than INDI
@@ -88,7 +89,8 @@ class CarInterface(object):
       # ret.lateralTuning.lqr.l = [0.03233671, 0.03185757]
       # ret.lateralTuning.lqr.dcGain = 0.002237852961363602
 
-      ret.steerActuatorDelay = 0.5
+      ret.steerActuatorDelay = 1.0
+      ret.steerRateCost = 0.5
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
       stop_and_go = True if (candidate in CAR.RAV4H) else False
@@ -219,7 +221,6 @@ class CarInterface(object):
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
       ret.lateralTuning.pid.kf = 0.00006
 
-    ret.steerRateCost = 1.
     ret.centerToFront = ret.wheelbase * 0.44
 
     #detect the Pedal address
