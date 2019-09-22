@@ -1,6 +1,7 @@
 import os
 import math
 import numpy as np
+import csv
 
 from common.numpy_fast import clip
 from common.realtime import sec_since_boot
@@ -131,6 +132,12 @@ class PathPlanner(object):
     plan_send.pathPlan.paramsValid = bool(sm['liveParameters'].valid)
     plan_send.pathPlan.sensorValid = bool(sm['liveParameters'].sensorValid)
     plan_send.pathPlan.posenetValid = bool(sm['liveParameters'].posenetValid)
+    #keras datalogging
+    if v_ego > 11.176:
+        with open('/data/kerasdata.csv', mode='a') as kerasdata:
+            self.keras_writer = csv.writer(kerasdata, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            self.keras_writer.writerow([angle_steers, v_ego, list(self.LP.l_poly), list(self.LP.r_poly), list(self.LP.d_poly),
+            self.LP.l_prob, self.LP.r_prob])
 
     pm.send('pathPlan', plan_send)
 
