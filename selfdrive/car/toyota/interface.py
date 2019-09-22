@@ -75,7 +75,7 @@ class CarInterface(object):
       ret.lateralTuning.pid.kf = 0.00006   # full torque for 10 deg at 80mph means 0.00007818594
 
       ret.steerActuatorDelay = 1.0
-      ret.steerRateCost = 0.5
+      ret.steerRateCost = 0.1
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
       stop_and_go = True if (candidate in CAR.RAV4H) else False
