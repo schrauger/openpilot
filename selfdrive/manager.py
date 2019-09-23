@@ -96,18 +96,18 @@ from selfdrive.loggerd.config import ROOT
 
 # comment out anything you don't want to run
 managed_processes = {
-  "thermald": "selfdrive.thermald",
-  "uploader": "selfdrive.loggerd.uploader",
+  #"thermald": "selfdrive.thermald",
+  #"uploader": "selfdrive.loggerd.uploader",
   "deleter": "selfdrive.loggerd.deleter",
   "controlsd": "selfdrive.controls.controlsd",
   "plannerd": "selfdrive.controls.plannerd",
   "radard": "selfdrive.controls.radard",
-  "ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
-  "loggerd": ("selfdrive/loggerd", ["./loggerd"]),
-  "logmessaged": "selfdrive.logmessaged",
-  "tombstoned": "selfdrive.tombstoned",
-  "logcatd": ("selfdrive/logcatd", ["./logcatd"]),
-  "proclogd": ("selfdrive/proclogd", ["./proclogd"]),
+  #"ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
+  #"loggerd": ("selfdrive/loggerd", ["./loggerd"]),
+  #"logmessaged": "selfdrive.logmessaged",
+  #"tombstoned": "selfdrive.tombstoned",
+  #"logcatd": ("selfdrive/logcatd", ["./logcatd"]),
+  #"proclogd": ("selfdrive/proclogd", ["./proclogd"]),
   "boardd": ("selfdrive/boardd", ["./boardd"]),   # not used directly
   "pandad": "selfdrive.pandad",
   "ui": ("selfdrive/ui", ["./start.py"]),
@@ -115,8 +115,8 @@ managed_processes = {
   "paramsd": ("selfdrive/locationd", ["./paramsd"]),
   "visiond": ("selfdrive/visiond", ["./visiond"]),
   "sensord": ("selfdrive/sensord", ["./start_sensord.py"]),
-  "gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]),
-  "updated": "selfdrive.updated",
+  #"gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]),
+  #"updated": "selfdrive.updated",
 }
 daemon_processes = {
   "athenad": "selfdrive.athena.athenad",
