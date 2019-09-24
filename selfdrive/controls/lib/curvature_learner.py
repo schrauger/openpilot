@@ -1,6 +1,7 @@
 from numpy import clip
 import pickle
 import csv
+import os
 
 # HOW TO
 # import this module to where you want to use it, such as from ```selfdrive.controls.lib.curvature_learner import CurvatureLearner```
@@ -25,6 +26,7 @@ class CurvatureLearner:
                 "right": 0.
             }
             pickle.dump(self.learned_offsets, open("/data/curvaturev1.p", "wb"))
+            os.chmod("/data/curvaturev1.p", 0o777)
 
     def update(self, angle_steers=0., d_poly=None, v_ego=0.):
         if angle_steers > 0.5:
