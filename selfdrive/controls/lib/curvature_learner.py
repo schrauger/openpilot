@@ -9,7 +9,7 @@ import os
 # call the update method ```self.curvature_offset.update(angle_steers - angle_offset, self.LP.d_poly)```
 # The learned curvature offsets will save and load automatically
 # by Zorrobyte
-# version 1.0
+# version 2
 
 class CurvatureLearner:
     def __init__(self, debug=False):
@@ -18,15 +18,15 @@ class CurvatureLearner:
         self.frame = 0
         self.debug = debug
         try:
-            self.learned_offsets = pickle.load(open("/data/curvaturev1.p", "rb"))
+            self.learned_offsets = pickle.load(open("/data/curvaturev2.p", "rb"))
         except (OSError, IOError) as e:
             self.learned_offsets = {
                 "center": 0.,
                 "left": 0.,
                 "right": 0.
             }
-            pickle.dump(self.learned_offsets, open("/data/curvaturev1.p", "wb"))
-            os.chmod("/data/curvaturev1.p", 0o777)
+            pickle.dump(self.learned_offsets, open("/data/curvaturev2.p", "wb"))
+            os.chmod("/data/curvaturev2.p", 0o777)
 
     def update(self, angle_steers=0., d_poly=None, v_ego=0.):
         if angle_steers > 0.5:
@@ -48,7 +48,7 @@ class CurvatureLearner:
         self.frame += 1
 
         if self.frame == 12000:  # every 2 mins
-            pickle.dump(self.learned_offsets, open("/data/curvaturev1.p", "wb"))
+            pickle.dump(self.learned_offsets, open("/data/curvaturev2.p", "wb"))
             self.frame = 0
         if self.debug:
             with open('/data/curvdebug.csv', 'a') as csv_file:
