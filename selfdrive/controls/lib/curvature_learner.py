@@ -14,7 +14,7 @@ import os
 class CurvatureLearner:
     def __init__(self, debug=False):
         self.offset = 0.
-        self.learning_rate = 12000
+        self.learning_rate = 6000
         self.frame = 0
         self.debug = debug
         try:
@@ -22,27 +22,35 @@ class CurvatureLearner:
         except (OSError, IOError) as e:
             self.learned_offsets = {
                 "center": 0.,
-                "left": 0.,
-                "right": 0.
+                "leftinner": 0.,
+                "rightinner": 0.,
+                "leftouter": 0.,
+                "rightouter": 0.
             }
             pickle.dump(self.learned_offsets, open("/data/curvaturev2.p", "wb"))
             os.chmod("/data/curvaturev2.p", 0o777)
 
     def update(self, angle_steers=0., d_poly=None, v_ego=0.):
-        if angle_steers > 0.5:
-            if abs(angle_steers) < 3.:
+        if angle_steers > 0.1:
+            if abs(angle_steers) < 2.:
                 self.learned_offsets["center"] -= d_poly[3] / self.learning_rate
                 self.offset = self.learned_offsets["center"]
-            if abs(angle_steers) > 3.:
-                self.learned_offsets["left"] -= d_poly[3] / self.learning_rate
-                self.offset = self.learned_offsets["left"]
-        elif angle_steers < -0.5:
-            if abs(angle_steers) < 3.:
+            elif 2. < abs(angle_steers) < 5.:
+                self.learned_offsets["leftinner"] -= d_poly[3] / self.learning_rate
+                self.offset = self.learned_offsets["leftinner"]
+            elif abs(angle_steers) > 5.:
+                self.learned_offsets["leftouter"] -= d_poly[3] / self.learning_rate
+                self.offset = self.learned_offsets["leftouter"]
+        elif angle_steers < -0.1:
+            if abs(angle_steers) < 2.:
                 self.learned_offsets["center"] += d_poly[3] / self.learning_rate
                 self.offset = self.learned_offsets["center"]
-            if abs(angle_steers) > 3.:
-                self.learned_offsets["right"] += d_poly[3] / self.learning_rate
-                self.offset = self.learned_offsets["right"]
+            elif 2. < abs(angle_steers) < 5.:
+                self.learned_offsets["rightinner"] += d_poly[3] / self.learning_rate
+                self.offset = self.learned_offsets["rightinner"]
+            elif abs(angle_steers) > 2.:
+                self.learned_offsets["rightouter"] += d_poly[3] / self.learning_rate
+                self.offset = self.learned_offsets["rightouter"]
 
         self.offset = clip(self.offset, -0.3, 0.3)
         self.frame += 1
