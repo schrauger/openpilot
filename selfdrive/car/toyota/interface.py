@@ -57,8 +57,9 @@ class CarInterface(object):
     ret.enableCruise = not ret.enableGasInterceptor
 
     ret.steerActuatorDelay = 1.0  # Default delay, Prius has larger delay
+    ret.steerRateCost = 1.
 
-    if candidate not in [CAR.PRIUS, CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
+    if candidate not in [CAR.RAV4, CAR.RAV4H]: # These cars use LQR/INDI
       ret.lateralTuning.init('pid')
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
 
@@ -69,24 +70,10 @@ class CarInterface(object):
       ret.steerRatio = 13.4   # unknown end-to-end spec
       tire_stiffness_factor = 0.6371   # hand-tune
       ret.mass = 3375. * CV.LB_TO_KG + STD_CARGO_KG
-
-      ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGain = 4.0
-      ret.lateralTuning.indi.outerLoopGain = 3.0
-      ret.lateralTuning.indi.timeConstant = 0.1
-      ret.lateralTuning.indi.actuatorEffectiveness = 1.0
-
-      # TODO: Determine if this is better than INDI
-      # ret.lateralTuning.init('lqr')
-      # ret.lateralTuning.lqr.scale = 1500.0
-      # ret.lateralTuning.lqr.ki = 0.01
-
-      # ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
-      # ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
-      # ret.lateralTuning.lqr.c = [1., 0.]
-      # ret.lateralTuning.lqr.k = [-110.73572306, 451.22718255]
-      # ret.lateralTuning.lqr.l = [0.03233671, 0.03185757]
-      # ret.lateralTuning.lqr.dcGain = 0.002237852961363602
+      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[13.4112, 35.7632], [0.]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.4, 0.6], [0.1]]
+      ret.lateralTuning.pid.kf = 0.00007818594
+      ret.steerRateCost = 1.0
 
     elif candidate in [CAR.RAV4, CAR.RAV4H]:
       stop_and_go = True if (candidate in CAR.RAV4H) else False
@@ -217,7 +204,7 @@ class CarInterface(object):
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
       ret.lateralTuning.pid.kf = 0.00006
 
-    ret.steerRateCost = 1.
+
     ret.centerToFront = ret.wheelbase * 0.44
 
     #detect the Pedal address
