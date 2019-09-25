@@ -74,7 +74,7 @@ class PathPlanner(object):
       delta_desired = math.radians(angle_steers - angle_offset) / VM.sR
       rate_desired = 0.0
 
-    self.cur_state[0].delta = delta_desired
+    self.cur_state[0].delta = math.radians(angle_steers - angle_offset) / VM.sR
     self.cur_state[0].x = v_ego
     self.cur_state[0].psi = v_ego * curvature_factor * math.radians(angle_steers - angle_offset) / VM.sR
 
