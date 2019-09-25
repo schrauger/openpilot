@@ -33,7 +33,7 @@ typedef struct {
 void init(double pathCost, double laneCost, double headingCost, double steerRateCost){
   acado_initializeSolver();
   int    i;
-  const int STEP_MULTIPLIER = 1;
+  const int STEP_MULTIPLIER = 3;
 
   /* Initialize the states and controls. */
   for (i = 0; i < NX * (N + 1); ++i)  acadoVariables.x[ i ] = 0.0;

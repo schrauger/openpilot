@@ -102,7 +102,7 @@ int main( )
   const double tStart = 0.0;
   const double tEnd   = 2.5;
 
-  OCP ocp( 0.0, 2.5, 50);
+  OCP ocp( tStart, tEnd, numSteps);
   ocp.subjectTo(f);
 
   ocp.minimizeLSQ(Q, h);
@@ -139,3 +139,4 @@ int main( )
 
   return EXIT_SUCCESS;
 }
+
