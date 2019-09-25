@@ -56,7 +56,7 @@ class PathPlanner(object):
     else:
       curvfac = 0.
 
-    curvature_factor = -4. + curvfac
+    curvature_factor = VM.curvature_factor(v_ego) + curvfac
 
     v_ego_mpc = max(v_ego, 5.0)  # avoid mpc roughness due to low speed
     self.libmpc.run_mpc(self.cur_state, self.mpc_solution,
