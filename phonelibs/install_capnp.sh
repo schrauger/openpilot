@@ -6,7 +6,7 @@ curl -O https://capnproto.org/capnproto-c++-0.7.0.tar.gz
 tar zxf capnproto-c++-0.7.0.tar.gz
 cd capnproto-c++-0.7.0
 ./configure
-make -j6 check
+make -j6 
 sudo make install
 
 cd /tmp
@@ -24,5 +24,5 @@ cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
 ./configure
-make -j4
+make -j6
 make install
