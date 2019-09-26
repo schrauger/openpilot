@@ -16,7 +16,6 @@ sudo apt-get update && sudo apt-get install -y \
     libswscale-dev \
     libtool \
     libusb-1.0-0 \
-    #libzmq5-dev \
     ocl-icd-libopencl1 \
     ocl-icd-opencl-dev \
     opencl-headers \
