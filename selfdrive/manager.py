@@ -143,9 +143,6 @@ persistent_processes = [
   'uploader',
   'ui',
   'updated',
-]
-
-car_started_processes = [
   'controlsd',
   'plannerd',
   'loggerd',
@@ -158,6 +155,10 @@ car_started_processes = [
   'ubloxd',
   'gpsd',
   'deleter',
+]
+
+car_started_processes = [
+
 ]
 
 def register_managed_process(name, desc, car_started=False):
