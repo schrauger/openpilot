@@ -96,27 +96,26 @@ from selfdrive.loggerd.config import ROOT
 
 # comment out anything you don't want to run
 managed_processes = {
-  #"thermald": "selfdrive.thermald",
-  #"uploader": "selfdrive.loggerd.uploader",
+  #"uploader": "selfdrive.loggerd.uploader", #this is the uploader process
   "deleter": "selfdrive.loggerd.deleter",
   "controlsd": "selfdrive.controls.controlsd",
   "plannerd": "selfdrive.controls.plannerd",
   "radard": "selfdrive.controls.radard",
-  #"ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
-  #"loggerd": ("selfdrive/loggerd", ["./loggerd"]),
-  #"logmessaged": "selfdrive.logmessaged",
-  #"tombstoned": "selfdrive.tombstoned",
-  #"logcatd": ("selfdrive/logcatd", ["./logcatd"]),
-  #"proclogd": ("selfdrive/proclogd", ["./proclogd"]),
+  #"ubloxd": ("selfdrive/locationd", ["./ubloxd"]), #this is
+  #"loggerd": ("selfdrive/loggerd", ["./loggerd"]), #this is the logging module
+  #"logmessaged": "selfdrive.logmessaged", #this pushes to logentries
+  #"tombstoned": "selfdrive.tombstoned", #I think this is a crash handler
+  #"logcatd": ("selfdrive/logcatd", ["./logcatd"]), #Some sort of android logging module in C
+  #"proclogd": ("selfdrive/proclogd", ["./proclogd"]), #Process logger, available CPU, RAM etc
   "boardd": ("selfdrive/boardd", ["./boardd"]),   # not used directly
   "pandad": "selfdrive.pandad",
-  #"ui": ("selfdrive/ui", ["./start.py"]),
-  #"calibrationd": "selfdrive.locationd.calibrationd",
-  #"paramsd": ("selfdrive/locationd", ["./paramsd"]),
-  #"visiond": ("selfdrive/visiond", ["./visiond"]),
-  #"sensord": ("selfdrive/sensord", ["./start_sensord.py"]),
-  #"gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]),
-  #"updated": "selfdrive.updated",
+  #"ui": ("selfdrive/ui", ["./start.py"]), #UI module, casts to frame apk
+  #"calibrationd": "selfdrive.locationd.calibrationd", #This is the calibration for where the vision model will look
+  #"paramsd": ("selfdrive/locationd", ["./paramsd"]), #This is ParamsLearner
+  #"visiond": ("selfdrive/visiond", ["./visiond"]), #visiond, perception module, duh
+  #"sensord": ("selfdrive/sensord", ["./start_sensord.py"]), #Phone sensors
+  #"gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]), #Phone GPS module
+  #"updated": "selfdrive.updated", #This pulls updates from GIT from the OP repo
 }
 daemon_processes = {
   "athenad": "selfdrive.athena.athenad",
