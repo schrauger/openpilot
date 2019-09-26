@@ -38,18 +38,18 @@ def update_panda():
   current_version = "bootstub" if panda.bootstub else str(panda.get_version())
   cloudlog.info("Panda connected, version: %s, expected %s" % (current_version, repo_version))
 
-  if panda.bootstub or not current_version.startswith(repo_version):
-    cloudlog.info("Panda firmware out of date, update required")
+#  if panda.bootstub or not current_version.startswith(repo_version):
+#    cloudlog.info("Panda firmware out of date, update required")
+#
+#    signed_fn = os.path.join(BASEDIR, "board", "obj", "panda.bin.signed")
+#    if os.path.exists(signed_fn):
+#      cloudlog.info("Flashing signed firmware")
+#      panda.flash(fn=signed_fn)
+#    else:
+#      cloudlog.info("Building and flashing unsigned firmware")
+#      panda.flash()
 
-    signed_fn = os.path.join(BASEDIR, "board", "obj", "panda.bin.signed")
-    if os.path.exists(signed_fn):
-      cloudlog.info("Flashing signed firmware")
-      panda.flash(fn=signed_fn)
-    else:
-      cloudlog.info("Building and flashing unsigned firmware")
-      panda.flash()
-
-    cloudlog.info("Done flashing")
+#    cloudlog.info("Done flashing")
 
   if panda.bootstub:
     cloudlog.info("Flashed firmware not booting, flashing development bootloader")
@@ -61,9 +61,9 @@ def update_panda():
     raise AssertionError
 
   version = str(panda.get_version())
-  if not version.startswith(repo_version):
-    cloudlog.info("Version mismatch after flashing, exiting")
-    raise AssertionError
+#  if not version.startswith(repo_version):
+#    cloudlog.info("Version mismatch after flashing, exiting")
+#    raise AssertionError
 
 
 def main(gctx=None):

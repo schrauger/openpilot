@@ -112,7 +112,7 @@ managed_processes = {
   #"ui": ("selfdrive/ui", ["./start.py"]), #UI module, casts to frame apk
   #"calibrationd": "selfdrive.locationd.calibrationd", #This is the calibration for where the vision model will look
   #"paramsd": ("selfdrive/locationd", ["./paramsd"]), #This is ParamsLearner
-  "visiond": "selfdrive.visiond", #visiond, perception module, duh
+  "visiond": "selfdrive.visiond.perception", #visiond, perception module, duh
   #"sensord": ("selfdrive/sensord", ["./start_sensord.py"]), #Phone sensors
   #"gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]), #Phone GPS module
   #"updated": "selfdrive.updated", #This pulls updates from GIT from the OP repo
