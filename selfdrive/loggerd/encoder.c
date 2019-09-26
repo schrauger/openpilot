@@ -15,7 +15,7 @@
 
 #include <libyuv.h>
 
-#include <android/log.h>
+
 
 #include <msm_media_info.h>
 

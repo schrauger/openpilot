@@ -29,7 +29,7 @@
 #ifdef QCOM
 #include <eigen3/Eigen/Dense>
 #else
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #endif
 
 #include "common/version.h"

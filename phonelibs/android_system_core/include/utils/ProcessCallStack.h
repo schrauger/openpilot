@@ -18,7 +18,7 @@
 #define ANDROID_PROCESS_CALLSTACK_H
 
 #include <utils/CallStack.h>
-#include <android/log.h>
+
 #include <utils/KeyedVector.h>
 #include <utils/String8.h>
 

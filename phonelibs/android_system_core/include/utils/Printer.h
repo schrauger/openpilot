@@ -17,7 +17,7 @@
 #ifndef ANDROID_PRINTER_H
 #define ANDROID_PRINTER_H
 
-#include <android/log.h>
+
 
 namespace android {
 

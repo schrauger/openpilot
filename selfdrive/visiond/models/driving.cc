@@ -246,8 +246,8 @@ void model_publish(void* sock, uint32_t frame_id,
 
         kj::ArrayPtr<const float> speed(&data.speed[0], ARRAYSIZE(data.speed));
         framed.setSpeed(speed);
-        
-        
+
+
         auto lpath = framed.initPath();
         fill_path(lpath, data.path);
         auto left_lane = framed.initLeftLane();

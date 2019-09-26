@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
@@ -25,15 +25,9 @@ function launch {
     exec "${BASH_SOURCE[0]}"
   fi
 
-  # no cpu rationing for now
-  echo 0-3 > /dev/cpuset/background/cpus
-  echo 0-3 > /dev/cpuset/system-background/cpus
-  echo 0-3 > /dev/cpuset/foreground/boost/cpus
-  echo 0-3 > /dev/cpuset/foreground/cpus
-  echo 0-3 > /dev/cpuset/android/cpus
 
   # handle pythonpath
-  ln -s /data/openpilot /data/pythonpath
+  #ln -s /data/openpilot /data/pythonpath
   export PYTHONPATH="$PWD"
 
   # start manager

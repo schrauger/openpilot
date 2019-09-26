@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
-#include <android/log.h>
+
 
 //#include <log/log.h>
 #include <log/logger.h>

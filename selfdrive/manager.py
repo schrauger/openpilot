@@ -96,27 +96,27 @@ from selfdrive.loggerd.config import ROOT
 
 # comment out anything you don't want to run
 managed_processes = {
-  "thermald": "selfdrive.thermald",
-  "uploader": "selfdrive.loggerd.uploader",
+  #"thermald": "selfdrive.thermald",
+  #"uploader": "selfdrive.loggerd.uploader",
   "deleter": "selfdrive.loggerd.deleter",
   "controlsd": "selfdrive.controls.controlsd",
   "plannerd": "selfdrive.controls.plannerd",
   "radard": "selfdrive.controls.radard",
-  "ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
-  "loggerd": ("selfdrive/loggerd", ["./loggerd"]),
-  "logmessaged": "selfdrive.logmessaged",
-  "tombstoned": "selfdrive.tombstoned",
-  "logcatd": ("selfdrive/logcatd", ["./logcatd"]),
-  "proclogd": ("selfdrive/proclogd", ["./proclogd"]),
+  #"ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
+  #"loggerd": ("selfdrive/loggerd", ["./loggerd"]),
+  #"logmessaged": "selfdrive.logmessaged",
+  #"tombstoned": "selfdrive.tombstoned",
+  #"logcatd": ("selfdrive/logcatd", ["./logcatd"]),
+  #"proclogd": ("selfdrive/proclogd", ["./proclogd"]),
   "boardd": ("selfdrive/boardd", ["./boardd"]),   # not used directly
   "pandad": "selfdrive.pandad",
-  "ui": ("selfdrive/ui", ["./start.py"]),
-  "calibrationd": "selfdrive.locationd.calibrationd",
-  "paramsd": ("selfdrive/locationd", ["./paramsd"]),
-  "visiond": ("selfdrive/visiond", ["./visiond"]),
-  "sensord": ("selfdrive/sensord", ["./start_sensord.py"]),
-  "gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]),
-  "updated": "selfdrive.updated",
+  #"ui": ("selfdrive/ui", ["./start.py"]),
+  #"calibrationd": "selfdrive.locationd.calibrationd",
+  #"paramsd": ("selfdrive/locationd", ["./paramsd"]),
+  #"visiond": ("selfdrive/visiond", ["./visiond"]),
+  #"sensord": ("selfdrive/sensord", ["./start_sensord.py"]),
+  #"gpsd": ("selfdrive/sensord", ["./start_gpsd.py"]),
+  #"updated": "selfdrive.updated",
 }
 daemon_processes = {
   "athenad": "selfdrive.athena.athenad",
@@ -304,7 +304,7 @@ def cleanup_all_processes(signal, frame):
 
 # ****************** run loop ******************
 
-def manager_init(should_register=True):
+def manager_init(should_register=False):
   if should_register:
     reg_res = register()
     if reg_res:
@@ -350,8 +350,8 @@ def manager_thread():
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
 
-  # save boot log
-  subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
+  # save boot log NOOO
+  #subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   params = Params()
 
@@ -496,8 +496,8 @@ def update_ssh():
       raise RuntimeError
 
 def manager_update():
-  update_ssh()
-  update_apks()
+  #update_ssh()
+  #update_apks()
 
   uninstall = [app for app in get_installed_apks().keys() if app in ("com.spotify.music", "com.waze")]
   for app in uninstall:
@@ -589,17 +589,17 @@ def main():
   if os.getenv("PREPAREONLY") is not None:
     spinner_proc = None
   else:
-    spinner_text = "chffrplus" if params.get("Passive")=="1" else "openpilot"
-    spinner_proc = subprocess.Popen(["./spinner", "loading %s"%spinner_text],
-      cwd=os.path.join(BASEDIR, "selfdrive", "ui", "spinner"),
-      close_fds=True)
+    #spinner_text = "chffrplus" if params.get("Passive")=="1" else "openpilot"
+    #spinner_proc = subprocess.Popen(["./spinner", "loading %s"%spinner_text],
+    #  cwd=os.path.join(BASEDIR, "selfdrive", "ui", "spinner"),
+    #  close_fds=True)
+    print("Kim Jueongdfgsdfg")
   try:
-    manager_update()
-    manager_init()
+    #manager_update()
+    #manager_init()
     manager_prepare()
   finally:
-    if spinner_proc:
-      spinner_proc.terminate()
+    print("wee")
 
   if os.getenv("PREPAREONLY") is not None:
     return
