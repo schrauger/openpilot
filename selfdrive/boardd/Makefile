@@ -16,7 +16,7 @@ WARN_FLAGS = -Werror=implicit-function-declaration \
 CFLAGS = -std=gnu11 -g -fPIC -I../ -I../../ -O2 $(WARN_FLAGS)
 CXXFLAGS = -std=c++11 -g -fPIC -I../ -I../../ -O2 $(WARN_FLAGS)
 
-ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lgnustl_shared
+ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lc++_shared
 
 JSON_FLAGS = -I$(PHONELIBS)/json/src
 

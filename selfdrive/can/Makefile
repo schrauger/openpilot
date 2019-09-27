@@ -31,7 +31,7 @@ else ifeq ($(UNAME_M),x86_64)
 	ZMQ_FLAGS = -I$(PHONELIBS)/zmq/x64/include
 	ZMQ_LIBS = -L$(PHONELIBS)/zmq/x64/lib -l:libzmq.a
 else ifeq ($(UNAME_M),aarch64)
-	ZMQ_LIBS = -l:libzmq.a -lgnustl_shared
+	ZMQ_LIBS = -l:libzmq.a -lc++_shared
 endif
 
 OBJDIR = obj

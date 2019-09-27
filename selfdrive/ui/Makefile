@@ -13,7 +13,7 @@ WARN_FLAGS = -Werror=implicit-function-declaration \
 CFLAGS = -std=gnu11 -fPIC -O2 $(WARN_FLAGS)
 CXXFLAGS = -std=c++11 -fPIC -O2 $(WARN_FLAGS)
 
-ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lgnustl_shared
+ZMQ_LIBS = -l:libczmq.a -l:libzmq.a -lc++_shared
 
 CEREAL_OBJS = ../../cereal/gen/c/log.capnp.o
 

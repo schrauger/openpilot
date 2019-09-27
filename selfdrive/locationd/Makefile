@@ -20,7 +20,7 @@ ZMQ_LIBS = -l:libczmq.a -l:libzmq.a
 ifeq ($(ARCH),aarch64)
 CFLAGS += -mcpu=cortex-a57
 CXXFLAGS += -mcpu=cortex-a57
-ZMQ_LIBS += -lgnustl_shared
+ZMQ_LIBS += -lc++_shared
 endif
 
 
