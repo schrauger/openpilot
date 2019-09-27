@@ -9,7 +9,7 @@ cd capnproto-c++-${VERSION}
 CXXFLAGS="-fPIC" ./configure
 
 make -j4
-sudo make install
+make install
 
 # manually build binaries statically
 g++ -std=gnu++11 -I./src -I./src -DKJ_HEADER_WARNINGS -DCAPNP_HEADER_WARNINGS -DCAPNP_INCLUDE_DIR=\"/data/data/com.termux/files/usr/local/include\" -pthread -O2 -DNDEBUG -pthread -pthread -o .libs/capnp src/capnp/compiler/module-loader.o src/capnp/compiler/capnp.o  ./.libs/libcapnpc.a ./.libs/libcapnp.a ./.libs/libkj.a -lpthread -pthread
@@ -32,7 +32,7 @@ git submodule update --init --recursive
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
 make -j4
-sudo make install
+make install
 
 # manually build binaries statically
 gcc -fPIC -o .libs/capnpc-c compiler/capnpc-c.o compiler/schema.capnp.o compiler/str.o  ./.libs/libcapnp_c.a
