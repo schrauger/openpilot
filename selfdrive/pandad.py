@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python2
+#!/usr/bin/env python2
 # simple boardd wrapper that updates the panda first
 import os
 import time

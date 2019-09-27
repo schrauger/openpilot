@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 import os
 import serial
 from selfdrive.locationd.test import ublox

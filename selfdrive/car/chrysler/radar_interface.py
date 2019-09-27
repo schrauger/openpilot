@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 import os
 from selfdrive.can.parser import CANParser
 from cereal import car

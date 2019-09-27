@@ -24,23 +24,23 @@ sudo apt-get update && sudo apt-get install -y \
     wget \
     libusb-1.0-0-dev
 
-phonelibs/install_capnp.sh
-pip install -r requirements.txt
+sudo phonelibs/install_capnp.sh
+sudo pip install -r requirements.txt
 
-cd
+cd /tmp
 git clone https://github.com/zeromq/libzmq.git
 cd libzmq
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
 make -j4
-make install
+sudo make install
 cd
 
-cd
+cd /tmp
 git clone https://github.com/zeromq/czmq.git
 cd czmq
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
 make -j4
-make install
+sudo make install
 cd

@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 from cereal import car
 from selfdrive.swaglog import cloudlog
 from selfdrive.config import Conversions as CV

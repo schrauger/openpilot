@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python2
+#!/usr/bin/env python2
 import os
 
 assert os.system("make") == 0

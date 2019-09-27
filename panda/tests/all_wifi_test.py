@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/python
+#!/usr/bin/python
 import requests
 import json
 from automated.helpers import _connect_wifi

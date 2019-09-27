@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env sh
+#!/usr/bin/env sh
 
 # Loop over all hardware types:
 #   HW_TYPE_UNKNOWN 0U

@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python2
+#!/usr/bin/env python2
 import subprocess
 import os
 import sys

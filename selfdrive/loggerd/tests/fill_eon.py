@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 """Script to fill up EON with fake data"""
 
 import os

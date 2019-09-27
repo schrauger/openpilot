@@ -78,7 +78,7 @@ ui: $(OBJS)
         $(OPENCL_LIBS) \
         ${OPENSL_LIBS} \
         ${UUID_LIBS} \
-        -Wl,-rpath=/system/lib64,-rpath=/system/comma/data/data/com.termux/files/usr/lib \
+        -Wl,-rpath=/system/lib64,-rpath=/system/comma/usr/lib \
         -lcutils -lm -llog -lui -ladreno_utils
 
 slplay.o: slplay.c

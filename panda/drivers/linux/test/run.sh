@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env bash
+#!/usr/bin/env bash
 sudo ifconfig can0 up
 make
 ./cantest

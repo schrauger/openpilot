@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 """
 This tool can be used to quickly changes the values in a JSON file used for tuning
 Keys like in vim:

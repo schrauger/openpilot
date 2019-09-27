@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 
 # Loopback test between two black pandas (+ harness and power)
 # Tests all buses, including OBD CAN, which is on the same bus as CAN0 in this test.

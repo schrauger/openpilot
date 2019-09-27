@@ -24,7 +24,7 @@ CXXFLAGS += -mcpu=cortex-a57
 endif
 
 ifeq ($(UNAME_S),Darwin)
-	ZMQ_LIBS = -L/data/data/com.termux/files/usr/local/lib -lzmq
+	ZMQ_LIBS = -L/usr/local/lib -lzmq
 else ifeq ($(OPTEST),1)
 	ZMQ_LIBS = -lzmq
 else ifeq ($(UNAME_M),x86_64)

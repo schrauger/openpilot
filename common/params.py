@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 """ROS has a parameter server, we have files.
 
 The parameter store is a persistent key value store, implemented as a directory with a writer lock.

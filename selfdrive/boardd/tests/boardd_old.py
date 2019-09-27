@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 
 # This file is not used by OpenPilot. Only boardd.cc is used.
 # The python version is slower, but has more options for development.

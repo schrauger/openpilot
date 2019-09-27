@@ -89,7 +89,7 @@ loggerd: $(OBJS)
 	      $(LIBYUV_LIBS) \
         $(CEREAL_LIBS) \
         $(ZMQ_LIBS) \
-        -L/data/data/com.termux/files/usr/lib \
+        -L/usr/lib \
         $(FFMPEG_LIBS) \
         -L/system/vendor/lib64 \
         $(OPENMAX_LIBS) \

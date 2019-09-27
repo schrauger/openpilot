@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/env python
+#!/usr/bin/env python
 import selfdrive.messaging as messaging
 from selfdrive.boardd.boardd import can_list_to_can_capnp
 
