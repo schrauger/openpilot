@@ -1,14 +1,7 @@
 UNAME_M ?= $(shell uname -m)
 UNAME_S ?= $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)
-CEREAL_CFLAGS = -I$(PHONELIBS)/capnp-c/include
-CEREAL_CXXFLAGS = -I$(PHONELIBS)/capnp-cpp/mac/include
-CEREAL_LIBS = $(PHONELIBS)/capnp-cpp/mac/lib/libcapnp.a \
-              $(PHONELIBS)/capnp-cpp/mac/lib/libkj.a \
-              $(PHONELIBS)/capnp-c/mac/lib/libcapnp_c.a
-
-else ifeq ($(UNAME_M),x86_64)
+ifeq ($(UNAME_M),x86_64)
 CEREAL_CFLAGS = -I$(PHONELIBS)/capnp-c/include
 CEREAL_CXXFLAGS = -I$(PHONELIBS)/capnp-cpp/include
 ifeq ($(CEREAL_LIBS),)
