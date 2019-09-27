@@ -33,7 +33,7 @@ cd
 git clone https://github.com/libusb/libusb.git
 cd libusb
 autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr --disable-udev
 make -j4
 make install
 cd
