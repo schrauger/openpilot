@@ -15,7 +15,7 @@ ln -s /data/data/com.termux/files/usr/bin/capnp /data/data/com.termux/files/usr/
 
 cd
 echo "Installing c-capnp"
-git clone https://github.com/commaai/c-capnproto.git
+git clone https://github.com/zorrobyte/c-capnproto.git
 cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
