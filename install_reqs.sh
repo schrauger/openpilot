@@ -4,7 +4,8 @@ apt-get update &&  apt-get install -y \
     bzip2 \
     clang \
     git \
-    wget
+    wget \
+    python2
 
 phonelibs/install_capnp.sh
 
@@ -28,4 +29,4 @@ make -j4
 make install
 cd
 
-pip install -r requirements.txt
+pip2 install -r requirements.txt
