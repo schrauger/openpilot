@@ -36,6 +36,6 @@ autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr --disable-udev #https://sourceforge.net/p/libusb/mailman/message/35494056/
 make -j4
 make install
-cd
+cd openpilot
 
 pip2 install -r requirements.txt
