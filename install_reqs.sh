@@ -1,4 +1,4 @@
-sudo apt-get update && sudo apt-get install -y \
+ apt-get update &&  apt-get install -y \
     autoconf \
     build-essential \
     bzip2 \
@@ -24,8 +24,8 @@ sudo apt-get update && sudo apt-get install -y \
     wget \
     libusb-1.0-0-dev
 
-sudo phonelibs/install_capnp.sh
-sudo pip install -r requirements.txt
+phonelibs/install_capnp.sh
+pip install -r requirements.txt
 
 cd /tmp
 git clone https://github.com/zeromq/libzmq.git
@@ -33,7 +33,7 @@ cd libzmq
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
 make -j4
-sudo make install
+make install
 cd
 
 cd /tmp
@@ -42,5 +42,5 @@ cd czmq
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
 make -j4
-sudo make install
+make install
 cd
