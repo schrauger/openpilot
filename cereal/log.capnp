@@ -7,7 +7,7 @@ $Java.outerClassname("Log");
 
 using Car = import "car.capnp";
 
-@0xd6649679533da3eb;
+@0xf3b1f17e25a4285b;
 
 const logVersion :Int32 = 1;
 

@@ -5,7 +5,7 @@ using Java = import "./include/java.capnp";
 $Java.package("ai.comma.openpilot.cereal");
 $Java.outerClassname("Car");
 
-@0xf707894d439dc93c;
+@0x8e2af1e708af8b8d;
 
 # ******* events causing controls state machine transition *******
 
