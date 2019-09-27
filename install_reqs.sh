@@ -30,6 +30,16 @@ make install
 cd
 
 cd
+git clone https://github.com/adobkin/libcapn.git
+cd libcapn
+git submodule update --init
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/data/data/com.termux/files/usr ../
+make
+make install
+
+cd
 git clone https://github.com/libusb/libusb.git
 cd libusb
 autoreconf -f -i -s
