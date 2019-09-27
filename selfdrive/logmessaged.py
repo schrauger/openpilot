@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 import zmq
 from logentries import LogentriesHandler
 from selfdrive.services import service_list

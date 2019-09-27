@@ -39,8 +39,8 @@ ZMQ_FLAGS = -I$(PHONELIBS)/zmq/aarch64/include
 ZMQ_LIBS = -L$(BASEDIR)/external/zmq/lib/ \
            -l:libczmq.a -l:libzmq.a
 EXTRA_LIBS = -lusb-1.0 -lpthread
-CXXFLAGS += -I/usr/include/libusb-1.0
-CFLAGS += -I/usr/include/libusb-1.0
+CXXFLAGS += -I/data/data/com.termux/files/usr/include/libusb-1.0
+CFLAGS += -I/data/data/com.termux/files/usr/include/libusb-1.0
 endif
 
 .PHONY: all

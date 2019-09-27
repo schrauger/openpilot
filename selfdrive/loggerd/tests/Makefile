@@ -24,7 +24,7 @@ OBJS = testraw.o \
        ../../common/visionipc.o
 
 testraw: $(OBJS)
-	$(CXX) -fPIC -o '$@' $^ -L/usr/lib $(FFMPEG_LIBS)
+	$(CXX) -fPIC -o '$@' $^ -L/data/data/com.termux/files/usr/lib $(FFMPEG_LIBS)
 
 %.o: %.cc
 	@echo "[ CXX ] $@"

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 import sys
 import struct
 from Crypto.PublicKey import RSA

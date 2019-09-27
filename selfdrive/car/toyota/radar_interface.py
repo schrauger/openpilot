@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 import os
 import time
 from selfdrive.can.parser import CANParser

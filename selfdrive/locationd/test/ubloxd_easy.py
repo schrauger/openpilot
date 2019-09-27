@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 import os
 from selfdrive.locationd.test import ublox
 from common import realtime

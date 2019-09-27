@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 """Run boardd with the BOARDD_LOOPBACK envvar before running this test."""
 
 import os

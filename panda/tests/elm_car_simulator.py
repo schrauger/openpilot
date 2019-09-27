@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 """Used to Reverse/Test ELM protocol auto detect and OBD message response without a car."""
 from __future__ import print_function
 import sys

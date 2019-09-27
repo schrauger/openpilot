@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 import os
 os.environ['OLD_CAN'] = '1'
 os.environ['NOCRASH'] = '1'

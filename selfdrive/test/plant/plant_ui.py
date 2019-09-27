@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/data/data/com.termux/files/usr/bin/env python
 import pygame # pylint: disable=import-error
 from selfdrive.test.plant.plant import Plant
 from selfdrive.car.honda.values import CruiseButtons
