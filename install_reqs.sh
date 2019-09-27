@@ -25,7 +25,7 @@ apt-get update &&  apt-get install -y \
     libusb-1.0-0-dev
 
 phonelibs/install_capnp.sh
-pip2 install -r requirements.txt
+pip install -r requirements.txt
 
 cd
 git clone https://github.com/zeromq/libzmq.git
