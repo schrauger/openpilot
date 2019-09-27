@@ -13,7 +13,7 @@ cd
 git clone https://github.com/zeromq/libzmq.git
 cd libzmq
 autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
 cd
