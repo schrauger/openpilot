@@ -24,7 +24,7 @@ cd
 git clone https://github.com/zeromq/czmq.git
 cd czmq
 autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
 cd
@@ -33,7 +33,7 @@ cd
 git clone https://github.com/libusb/libusb.git
 cd libusb
 autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
 make -j4
 make install
 cd
