@@ -1,4 +1,4 @@
- apt-get update &&  apt-get install -y \
+apt-get update &&  apt-get install -y \
     autoconf \
     build-essential \
     bzip2 \

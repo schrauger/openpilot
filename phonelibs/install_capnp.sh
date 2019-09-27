@@ -1,6 +1,6 @@
 echo "Installing capnp"
 
-cd /tmp
+cd
 VERSION=0.6.1
 wget https://capnproto.org/capnproto-c++-${VERSION}.tar.gz
 tar xvf capnproto-c++-${VERSION}.tar.gz
@@ -23,7 +23,7 @@ cp .libs/capnpc-c++ /data/data/com.termux/files/usr/bin/
 cp .libs/capnpc-capnp /data/data/com.termux/files/usr/bin/
 cp .libs/*.a /data/data/com.termux/files/usr/lib
 
-cd /tmp
+cd
 echo "Installing c-capnp"
 git clone https://github.com/commaai/c-capnproto.git
 cd c-capnproto
