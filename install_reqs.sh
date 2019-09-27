@@ -29,4 +29,13 @@ make -j4
 make install
 cd
 
+cd
+git clone https://github.com/libusb/libusb.git
+cd libusb
+autoreconf -f -i -s
+CXXFLAGS="-fPIC" ./configure
+make -j4
+make install
+cd
+
 pip2 install -r requirements.txt
