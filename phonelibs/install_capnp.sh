@@ -7,8 +7,7 @@ tar xvf capnproto-c++-${VERSION}.tar.gz
 cd capnproto-c++-${VERSION}
 CXXFLAGS="-fPIC" ./configure
 
-make -j4
-make install
+make -j4 && make install
 
 
 ln -s /data/data/com.termux/files/usr/bin/capnp /data/data/com.termux/files/usr/bin/capnpc
@@ -21,5 +20,4 @@ cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
 CXXFLAGS="-fPIC" ./configure
-make -j4
-make install
+make -j4 && make install

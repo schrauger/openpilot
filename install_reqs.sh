@@ -25,9 +25,9 @@ apt-get update &&  apt-get install -y \
     libusb-1.0-0-dev
 
 phonelibs/install_capnp.sh
-pip install -r requirements.txt
+pip2 install -r requirements.txt
 
-cd /tmp
+cd
 git clone https://github.com/zeromq/libzmq.git
 cd libzmq
 autoreconf -f -i -s
@@ -36,7 +36,7 @@ make -j4
 make install
 cd
 
-cd /tmp
+cd
 git clone https://github.com/zeromq/czmq.git
 cd czmq
 autoreconf -f -i -s
