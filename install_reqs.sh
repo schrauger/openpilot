@@ -17,6 +17,7 @@ CXXFLAGS="-fPIC" ./configure
 make -j4
 make install
 cd
+##This installs to /usr/local instead of /data/data/com.termux/files/usr -- you need to cp -Rn the files ^^^^
 
 cd
 git clone https://github.com/zeromq/czmq.git
