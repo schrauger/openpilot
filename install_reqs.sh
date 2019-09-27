@@ -7,7 +7,7 @@ apt-get update &&  apt-get install -y \
     wget
 
 phonelibs/install_capnp.sh
-pip install -r requirements.txt
+
 
 cd
 git clone https://github.com/zeromq/libzmq.git
@@ -26,3 +26,5 @@ CXXFLAGS="-fPIC" ./configure
 make -j4
 make install
 cd
+
+pip install -r requirements.txt
