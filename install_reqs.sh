@@ -4,25 +4,7 @@ apt-get update &&  apt-get install -y \
     bzip2 \
     clang \
     git \
-    libarchive-dev \
-    libavcodec-dev \
-    libavdevice-dev \
-    libavfilter-dev \
-    libavresample-dev \
-    libavutil-dev \
-    libffi-dev \
-    libglib2.0-0 \
-    libssl-dev \
-    libswscale-dev \
-    libtool \
-    libusb-1.0-0 \
-    ocl-icd-libopencl1 \
-    ocl-icd-opencl-dev \
-    opencl-headers \
-    pkg-config \
-    python-pip \
-    wget \
-    libusb-1.0-0-dev
+    wget
 
 phonelibs/install_capnp.sh
 pip install -r requirements.txt

@@ -1,7 +1,7 @@
 set -e
 echo "Installing capnp"
 
-cd /tmp
+cd
 VERSION=0.6.1
 wget https://capnproto.org/capnproto-c++-${VERSION}.tar.gz
 tar xvf capnproto-c++-${VERSION}.tar.gz
@@ -24,9 +24,9 @@ cp .libs/capnpc-c++ /usr/local/bin/
 cp .libs/capnpc-capnp /usr/local/bin/
 cp .libs/*.a /usr/local/lib
 
-cd /tmp
+cd
 echo "Installing c-capnp"
-git clone https://github.com/commaai/c-capnproto.git
+git clone https://github.com/zorrobyte/c-capnproto.git
 cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
@@ -37,5 +37,5 @@ make install
 # manually build binaries statically
 gcc -fPIC -o .libs/capnpc-c compiler/capnpc-c.o compiler/schema.capnp.o compiler/str.o  ./.libs/libcapnp_c.a
 
-cp .libs/capnpc-c /usr/local/bin/
-cp .libs/*.a /usr/local/lib
+cp .libs/capnpc-c /data/data/com.termux/files/usr/bin/
+cp .libs/*.a /data/data/com.termux/files/usr/lib
