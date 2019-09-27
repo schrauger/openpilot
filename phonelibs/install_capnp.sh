@@ -5,7 +5,7 @@ VERSION=0.6.1
 wget https://capnproto.org/capnproto-c++-${VERSION}.tar.gz
 tar xvf capnproto-c++-${VERSION}.tar.gz
 cd capnproto-c++-${VERSION}
-CXXFLAGS="-fPIC" ./configure
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
 
 make -j4 && make install
 
@@ -32,7 +32,7 @@ git clone https://github.com/zorrobyte/c-capnproto.git
 cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
+CXXFLAGS="-fPIC" ./configure --prefix=/data/data/com.termux/files/usr
 make -j4 && make install
 
 # manually build binaries statically
