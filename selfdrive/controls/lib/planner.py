@@ -13,6 +13,8 @@ from selfdrive.controls.lib.speed_smoother import speed_smoother
 from selfdrive.controls.lib.longcontrol import LongCtrlState, MIN_CAN_SPEED
 from selfdrive.controls.lib.fcw import FCWChecker
 from selfdrive.controls.lib.long_mpc import LongitudinalMpc
+from selfdrive.kegman_conf import kegman_conf
+
 
 MAX_SPEED = 255.0
 
@@ -27,9 +29,12 @@ _A_CRUISE_MIN_BP = [   0., 5.,  10., 20.,  40.]
 
 # need fast accel at very low speed for stop and go
 # make sure these accelerations are smaller than mpc limits
-_A_CRUISE_MAX_V = [1.1, 1.1, .8, .5, .3]
-_A_CRUISE_MAX_V_FOLLOWING = [1.6, 1.6, 1.2, .7, .3]
-_A_CRUISE_MAX_BP = [0.,  5., 10., 20., 40.]
+#_A_CRUISE_MAX_V = [1.1, 1.1, .8, .5, .3] comma default 
+#_A_CRUISE_MAX_V = [1.6, 1.6, 1.2, .7, .3] kegman
+_A_CRUISE_MAX_V = [1.6, 1.6, 1.5, .7, .3] #better (regain speed faster)
+_A_CRUISE_MAX_V_FOLLOWING = [1.6, 1.6, 1.2, .7, .3] #comma default
+#_A_CRUISE_MAX_V_FOLLOWING = [1.1, 1.6, 1.3, .7, .3] #better (less agressive accel on jams)
+_A_CRUISE_MAX_BP = [0., 5., 10., 20., 40.]
 
 # Lookup table for turns
 _A_TOTAL_MAX_V = [1.5, 1.9, 3.2]
@@ -92,6 +97,7 @@ class Planner(object):
     self.path_x = np.arange(192)
 
     self.params = Params()
+    self.kegman = kegman_conf()
 
   def choose_solution(self, v_cruise_setpoint, enabled):
     if enabled:
@@ -136,7 +142,7 @@ class Planner(object):
     enabled = (long_control_state == LongCtrlState.pid) or (long_control_state == LongCtrlState.stopping)
     following = lead_1.status and lead_1.dRel < 45.0 and lead_1.vLeadK > v_ego and lead_1.aLeadK > 0.0
 
-    if len(sm['model'].path.poly):
+    if len(sm['model'].path.poly) and int(self.kegman.conf['slowOnCurves']):
       path = list(sm['model'].path.poly)
 
       # Curvature of polynomial https://en.wikipedia.org/wiki/Curvature#Curvature_of_the_graph_of_a_function
