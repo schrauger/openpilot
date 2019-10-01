@@ -22,7 +22,10 @@ sudo apt-get update && sudo apt-get install -y \
     pkg-config \
     python-pip \
     wget \
-    libusb-1.0-0-dev
+    libusb-1.0-0-dev \
+    git build-essential libtool \
+    pkg-config autotools-dev autoconf automake cmake \
+    uuid-dev libpcre3-dev libsodium-dev valgrind
 
 sudo phonelibs/install_capnp.sh
 sudo pip install -r requirements.txt
