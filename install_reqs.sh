@@ -25,7 +25,8 @@ sudo apt-get update && sudo apt-get install -y \
     libusb-1.0-0-dev \
     git build-essential libtool \
     pkg-config autotools-dev autoconf automake cmake \
-    uuid-dev libpcre3-dev libsodium-dev valgrind
+    uuid-dev libpcre3-dev libsodium-dev valgrind \
+    python-dev 
 
 sudo phonelibs/install_capnp.sh
 sudo pip install -r requirements.txt
