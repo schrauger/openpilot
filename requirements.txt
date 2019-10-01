@@ -1,4 +1,5 @@
 setuptools
+wheel
 asn1crypto==0.24.0
 astroid==1.6.6
 atomicwrites==1.3.0
