@@ -25,7 +25,7 @@ cp .libs/*.a /usr/local/lib
 
 cd /tmp
 echo "Installing c-capnp"
-git clone https://github.com/zorrobyte/c-capnproto.git
+git clone https://github.com/commaai/c-capnproto.git
 cd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
