@@ -31,19 +31,20 @@ sudo phonelibs/install_capnp.sh
 sudo pip install -r requirements.txt
 
 cd /tmp
-git clone https://github.com/zeromq/libzmq.git
+git clone git://github.com/zeromq/libzmq.git
 cd libzmq
-autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
+./autogen.sh
+# do not specify "--with-libsodium" if you prefer to use internal tweetnacl security implementation (recommended for development)
+./configure
 make -j4
 sudo make install
-cd
+sudo ldconfig
+cd ..
 
 cd /tmp
-git clone https://github.com/zeromq/czmq.git
+git clone git://github.com/zeromq/czmq.git
 cd czmq
-autoreconf -f -i -s
-CXXFLAGS="-fPIC" ./configure
-make -j4
+./autogen.sh && ./configure && make -j4
 sudo make install
+sudo ldconfig
 cd
