@@ -1,5 +1,4 @@
 #!/usr/bin/env python2.7
-import os
 from smbus2 import SMBus
 from cereal import log
 from selfdrive.version import terms_version, training_version
@@ -35,8 +34,6 @@ def read_thermal():
 LEON = False
 def setup_eon_fan():
   global LEON
-
-  os.system("echo 2 > /sys/module/dwc3_msm/parameters/otg_switch")
 
   bus = SMBus(7, force=True)
   try:
@@ -112,10 +109,8 @@ def check_car_battery_voltage(should_start, health, charging_disabled):
   #   - onroad isn't started
   if charging_disabled and (health is None or health.health.voltage > 11800):
     charging_disabled = False
-    os.system('echo "1" > /sys/class/power_supply/battery/charging_enabled')
   elif not charging_disabled and health is not None and health.health.voltage < 11500 and not should_start:
     charging_disabled = True
-    os.system('echo "0" > /sys/class/power_supply/battery/charging_enabled')
 
   return charging_disabled
 
@@ -144,7 +139,6 @@ def thermald_thread():
 
   # Make sure charging is enabled
   charging_disabled = False
-  os.system('echo "1" > /sys/class/power_supply/battery/charging_enabled')
 
   params = Params()
 
@@ -208,7 +202,7 @@ def thermald_thread():
     # **** starting logic ****
 
     # start constellation of processes when the car starts
-    ignition = health is not None and health.health.started
+    ignition = health.health.started
     ignition_seen = ignition_seen or ignition
 
     # add voltage check for ignition
@@ -241,18 +235,10 @@ def thermald_thread():
       if started_ts is None:
         started_ts = sec_since_boot()
         started_seen = True
-        os.system('echo performance > /sys/class/devfreq/soc:qcom,cpubw/governor')
     else:
       started_ts = None
       if off_ts is None:
         off_ts = sec_since_boot()
-        os.system('echo powersave > /sys/class/devfreq/soc:qcom,cpubw/governor')
-
-      # shutdown if the battery gets lower than 3%, it's discharging, we aren't running for
-      # more than a minute but we were running
-      if msg.thermal.batteryPercent < BATT_PERC_OFF and msg.thermal.batteryStatus == "Discharging" and \
-         started_seen and (sec_since_boot() - off_ts) > 60:
-        os.system('LD_LIBRARY_PATH="" svc power shutdown')
 
     #charging_disabled = check_car_battery_voltage(should_start, health, charging_disabled)
 
