@@ -1,4 +1,4 @@
-apt install -y build-essential libusb-dev libusb-1.0 python-pip cmake git wget automake
+apt install -y build-essential libusb-dev libusb-1.0 python-pip cmake git wget automake clang
 set -e
 rm -rf /tmp/*
 echo "Installing capnp"
