@@ -67,14 +67,14 @@ git clone https://github.com/zorrobyte/openpilot.git
 cd openpilot
 git checkout x86
 
+echo "Creating directories"
+mkdir /data
+chown ${USER:=$(/usr/bin/id -run)}:$USER /data
+
 echo "Setting up pipenv"
 pip install pipenv
 pipenv install
 pipenv shell
-
-echo "Creating directories"
-mkdir /data
-chown ${USER:=$(/usr/bin/id -run)}:$USER /data
 
 echo "Compiling and launching OP"
 ./launch_openpilot
