@@ -120,7 +120,7 @@ managed_processes = {
 daemon_processes = {
   "athenad": "selfdrive.athena.athenad",
 }
-android_packages = ("ai.comma.plus.offroad", "ai.comma.plus.frame")
+#android_packages = ("ai.comma.plus.offroad", "ai.comma.plus.frame")
 
 running = {}
 def get_running():
@@ -287,14 +287,8 @@ def kill_managed_process(name):
   cloudlog.info("%s is dead with %d" % (name, running[name].exitcode))
   del running[name]
 
-def pm_apply_packages(cmd):
-  for p in android_packages:
-    system("pm %s %s" % (cmd, p))
-
 def cleanup_all_processes(signal, frame):
   cloudlog.info("caught ctrl-c %s %s" % (signal, frame))
-
-  pm_apply_packages('disable')
 
   for name in list(running.keys()):
     kill_managed_process(name)
@@ -361,11 +355,6 @@ def manager_thread():
   # start persistent processes
   for p in persistent_processes:
     start_managed_process(p)
-
-  # start frame
-  pm_apply_packages('enable')
-  system("LD_LIBRARY_PATH= appops set ai.comma.plus.offroad SU allow")
-  system("am start -n ai.comma.plus.frame/.MainActivity")
 
   if os.getenv("NOBOARD") is None:
     start_managed_process("pandad")
