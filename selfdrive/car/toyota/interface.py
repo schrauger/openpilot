@@ -335,7 +335,14 @@ class CarInterface(CarInterfaceBase):
 
     # cruise state
     ret.cruiseState.enabled = self.CS.pcm_acc_active
-    ret.cruiseState.speed = self.CS.v_cruise_pcm * CV.KPH_TO_MS
+    
+    # schrauger - set min cruise to 20mph instead of 28
+    #ret.cruiseState.speed = self.CS.v_cruise_pcm * CV.KPH_TO_MS
+    speed = self.CS.v_cruise_pcm * CV.KPH_TO_MS
+    if speed < (46 * CV.KPH_TO_MS):  # ~28mph
+      speed = 32 * CV.KPH_TO_MS # ~20mph
+    ret.cruiseState.speed = speed
+
     ret.cruiseState.available = bool(self.CS.main_on)
     ret.cruiseState.speedOffset = 0.
 
