@@ -4,6 +4,7 @@ Branch changes
 * Utilizes the newer steering sensor that the 2020 Prius Prime has (also the 2019). Even though it doesn't have TSS2, it does have a better steering angle sensor that can be used for smoother steering with OpenPilot.
 * Disables the cruise control resume requirement, letting the car come to a complete stop and the resuming automatically without requiring the user to press up on the cruise stalk.
 * Enables Automatic Lane Change
+* Sets speed to 20mph when cruise control is set at 28mph (letting the car run slower in city or residential areas)
 
 [![](https://i.imgur.com/UetIFyH.jpg)](#)
 
