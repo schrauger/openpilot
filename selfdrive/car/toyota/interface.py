@@ -10,7 +10,7 @@ from selfdrive.swaglog import cloudlog
 from selfdrive.car.interfaces import CarInterfaceBase
 
 ButtonType = car.CarState.ButtonEvent.Type
-GearShifter = car.CarState.GearShifterf
+GearShifter = car.CarState.GearShifter
 
 class CarInterface(CarInterfaceBase):
   def __init__(self, CP, CarController):
