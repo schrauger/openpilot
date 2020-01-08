@@ -8,6 +8,8 @@ This branch should only be used with a 2020 or 2019 Prius Prime.
 * Enables Automatic Lane Change
 * Sets speed to 20mph when cruise control is set at 28mph (letting the car run slower in city or residential areas)
 
+---
+
 [![](https://i.imgur.com/UetIFyH.jpg)](#)
 
 Table of Contents
