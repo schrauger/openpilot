@@ -10,7 +10,7 @@ from selfdrive.swaglog import cloudlog
 from selfdrive.car.interfaces import CarInterfaceBase
 
 ButtonType = car.CarState.ButtonEvent.Type
-GearShifter = car.CarState.GearShifter
+GearShifter = car.CarState.GearShifterf
 
 class CarInterface(CarInterfaceBase):
   def __init__(self, CP, CarController):
@@ -335,7 +335,7 @@ class CarInterface(CarInterfaceBase):
 
     # cruise state
     ret.cruiseState.enabled = self.CS.pcm_acc_active
-    
+
     # schrauger - set min cruise to 20mph instead of 28
     #ret.cruiseState.speed = self.CS.v_cruise_pcm * CV.KPH_TO_MS
     speed = self.CS.v_cruise_pcm * CV.KPH_TO_MS
