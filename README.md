@@ -8,6 +8,49 @@ This branch should only be used with a 2020 or 2019 Prius Prime.
 * Enables Automatic Lane Change
 * Sets speed to 20mph when cruise control is set at 28mph (letting the car run slower in city or residential areas)
 
+Tri-state switch
+================
+
+For those with the OnePlus 3T based devices, there is a 3-way switch that is unused by OpenPilot. Here are directions on how to take advantage of the tri-state switch so that you can easily switch between three forks/branches by rebooting.
+
+**Note**: If your DSU is disconnected, you have to also restart your car. If you reboot the eon while the car is on, it will cause cruise faults. The black panda and harness only prevent warnings if the DSU is connected. **If your DSU is disconnected, do not reconnect it while the car is on.**
+
+https://cdn.discordapp.com/attachments/602932994868641844/602933198460157965/trisate.pdf
+
+If that link is down, the gist is that you create 3 directories: `/data/openpilot.1`, `/data/openpilot.2`, `/data/openpilot.3`. `cd` into the directories, then clone your fork and switch branches if needed.
+
+Then you need to modify the Android app to create a symbolic link to the specific branch you selected before it runs OpenPilot.
+
+https://raw.githubusercontent.com/icmma/tristate/master/continue.sh
+
+```
+#!/usr/bin/bash
+
+# Script to switch openpilot repos loaded on the EON
+#
+# This script should replace the file on your EON in /data/data/com.termux/files/
+# 
+# Note: This does not work on LeEco Le Pro 3 (since it does not have this switch)
+# 
+# Usage:
+#    You need to clone the repos with the branch you want into the following directories:
+#    /data/openpilot.1   
+#    /data/openpilot.2
+#    /data/openpilot.3
+#
+# Then boot up your EON with the switch (going from left to right) in position 1,2,3 to load that branch of openpilot.
+
+switchstate=`cat /sys/devices/virtual/switch/tri-state-key/state`
+   
+rm -f /data/openpilot
+ln -fs /data/openpilot.$switchstate /data/openpilot
+cd /data/openpilot
+exec ./launch_openpilot.sh
+
+```
+
+Afterwards, just choose a position on the selector switch and reboot.
+
 ---
 
 [![](https://i.imgur.com/UetIFyH.jpg)](#)
