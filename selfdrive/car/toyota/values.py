@@ -495,7 +495,7 @@ FW_VERSIONS = {
     (Ecu.fwdRadar, 0x750, 0xf): [b'8821F4702300\x00\x00\x00\x00'],
     (Ecu.fwdCamera, 0x750, 0x6d): [b'8646F5301400\x00\x00\x00\x00'],
   },
-  CAR.PRIUS: {
+  CAR.PRIUS_2019: {
     (Ecu.engine, 0x700, None): [
       b'\x02896634761000\x00\x00\x00\x008966A4703000\x00\x00\x00\x00',
       b'\x02896634761100\x00\x00\x00\x008966A4703000\x00\x00\x00\x00',
