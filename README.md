@@ -1,3 +1,7 @@
+**Fork no longer maintained.**
+
+As of 0.7.4, the newer steering sensor is utilized in standard OpenPilot. As such, I currently am not keeping this fork up to date. Other forks have most of these features (and more), and the main reason I had my own fork was to try other features while keeping the newer steering sensor for reduced ping-pong.
+
 Branch changes
 ================
 
